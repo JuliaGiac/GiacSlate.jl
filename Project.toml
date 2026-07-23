@@ -12,7 +12,7 @@ SlateExtensionsBase = "bc31d39e-4442-48fa-b9ae-1bd99fed63f7"
 # NOT against the heavy KaimonSlate server. Dev-sourced from the sibling checkout while SEB is
 # unregistered; swap for the registered version once it lands in the General registry.
 [sources]
-SlateExtensionsBase = {path = "../KaimonSlate-widgets/lib/SlateExtensionsBase"}
+SlateExtensionsBase = {path = "../KaimonSlate/lib/SlateExtensionsBase"}
 
 [compat]
 Giac = "0.14.1"
