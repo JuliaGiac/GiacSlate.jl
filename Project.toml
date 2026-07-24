@@ -15,6 +15,6 @@ SlateExtensionsBase = "bc31d39e-4442-48fa-b9ae-1bd99fed63f7"
 SlateExtensionsBase = {path = "../KaimonSlate/lib/SlateExtensionsBase"}
 
 [compat]
-Giac = "0.14.1"
+Giac = "0.14.2"
 JSON = "1.6.1"
 SlateExtensionsBase = "0.1"
