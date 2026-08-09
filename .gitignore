@@ -3,6 +3,7 @@
 # Root files
 !/Project.toml
 !/README.md
+!/ROADMAP.md
 !/LICENSE
 !/.gitignore
 
