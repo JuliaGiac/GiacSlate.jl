@@ -7,7 +7,7 @@ GiacSlate is a Julia package that integrates [Giac.jl](https://github.com/s-cell
 GiacSlate isn't registered yet, so install it directly from the repository. From the Pkg REPL (press `]`):
 
 ```julia-repl
-pkg> add https://github.com/kahliburke/GiacSlate.jl
+pkg> add https://github.com/s-celles/GiacSlate.jl
 ```
 
 *(Once GiacSlate is registered, `pkg> add GiacSlate` will be the one-liner.)*
@@ -19,7 +19,7 @@ The `notebooks/` directory contains interactive [Kaimon Slate](https://github.co
 To run them, ensure you have the `slate` CLI installed and run:
 
 ```sh
-git clone https://github.com/kahliburke/GiacSlate.jl.git
+git clone https://github.com/s-celles/GiacSlate.jl.git
 cd GiacSlate.jl
 slate notebooks/giac_intro.jl
 ```
@@ -31,5 +31,4 @@ slate notebooks/giac_intro.jl
 
 ## Math Input
 
-GiacSlate provides live, interactive math fields powered by **MathLive <math-field>**. You can insert these math fields into Slate notebooks using the `giac"..."` string macro in code cells or embedded directly in Markdown prose. It provides a visual math keyboard and renders results seamlessly as typeset mathematics.
-
+GiacSlate provides live, interactive math fields powered by **MathLive <math-field></math>**. You can insert these math fields into Slate notebooks using the `giac"..."` string macro in code cells or embedded directly in Markdown prose. It provides a visual math keyboard and renders results seamlessly as typeset mathematics.
