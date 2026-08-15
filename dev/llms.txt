@@ -5,6 +5,7 @@
 
 - [Home]()
 - [Getting started](getting-started/)
+- [The notebooks > Overview](notebooks/)
 - [The notebooks > Symbolic Computation with Giac.jl](notebooks/giac_intro/)
 - [The notebooks > A Tour of GIAC](notebooks/giac_tour/)
 - [The notebooks > The Laplace Transform](notebooks/laplace_lesson/)

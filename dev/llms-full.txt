@@ -1,5 +1,5 @@
 # GiacSlate.jl — full documentation
-> The complete documentation source, 9 pages.
+> The complete documentation source, 10 pages.
 
 ## Section: Home
 <!-- Source: index.md -->
@@ -266,6 +266,129 @@ falling back to executing. That is what lets the deploy job — the only one hol
 
 ---
 
+## Section: The notebooks > Overview
+<!-- Source: notebooks.md -->
+
+```@meta
+CurrentModule = GiacSlate
+```
+
+# The notebooks
+
+Four Kaimon Slate notebooks in
+[`notebooks/`](https://github.com/JuliaGiac/GiacSlate.jl/tree/main/notebooks). The pages
+in this section are their real output, executed headlessly by
+[DocumenterSlate.jl](https://github.com/s-celles/DocumenterSlate.jl) — not a
+transcription. Every page carries a verified source download, a reproducible archive,
+and a KaimonSlate command that lets you inspect the notebook without evaluating a
+single cell.
+
+Open one with `slate notebooks/giac_intro.jl`. Only `giac_intro.jl` is a prerequisite
+for the others; after that they are independent.
+
+| | notebook | what you get |
+|:--|:--|:--|
+| 1 | [Symbolic Computation with Giac.jl](notebooks/giac_intro.md) | the way in — algebra, calculus, Laplace, and two interactive explorers |
+| 2 | [A Tour of GIAC](notebooks/giac_tour.md) | the map of the engine in nine sections, ending in a list of sharp edges |
+| 3 | [The Laplace Transform](notebooks/laplace_lesson.md) | a physics lesson with ten self-grading exercises |
+| 4 | [Custom Controls Playground](notebooks/custom_controls.md) | the widget extension points, taken apart |
+
+## 1 · Symbolic Computation with Giac.jl
+
+Exact algebra first: factoring, expanding, simplifying and partial fractions, all
+returning closed forms that Slate typesets directly. Then equation solving with genuinely
+exact roots — rational, irrational and complex. Then calculus: derivatives, closed-form
+integrals, and limits including improper ones.
+
+Two interactive pieces carry the notebook:
+
+- **A Taylor explorer.** Pick a function and a truncation order; Giac computes the Taylor
+  polynomial about ``x = 0`` *symbolically*, and it is plotted against the exact curve.
+  Push the order up and watch the polynomial hug the function — then notice that
+  ``\arctan x`` still diverges past its radius of convergence ``|x| = 1``, however many
+  terms you add.
+- **A second-order system, end to end.** Giac inverts ``H(s)/s`` symbolically to get the
+  exact step response — no numerical ODE solver anywhere. Drag the damping ratio and
+  natural frequency: the closed form, the pole locations in the complex ``s``-plane, and
+  the time response all move together, and the poles split into a complex-conjugate pair
+  as ``\zeta`` drops below 1.
+
+Between them, forward and inverse Laplace transforms, including a round trip that has to
+land back on the signal it started from.
+
+## 2 · A Tour of GIAC
+
+The working map of the engine, in nine sections: algebra, calculus, solving equations and
+ODEs, linear algebra, number theory and exact arithmetic, integral transforms,
+trigonometry, complex numbers — and then **§9, "Here be dragons"**.
+
+That last section is the reason to read this notebook rather than a command list. It is
+an honest inventory of the sharp edges, found by building the rest of the notebook:
+
+- `desolve` fails **silently** — conditions passed as a list return `[]` rather than
+  raising. Join them with `and`, and keep the whole call inside one `giac"…"` field.
+- singular integrals are taken at face value: `integrate(1/x, x, -1, 1)` returns `0`,
+  the formal principal value, with no warning that the integrand blows up.
+- `mod` is a residue *class*, not a remainder. `173 mod 12` stays in ℤ/12; for the plain
+  integer, use `irem`.
+- bare symbols are assumed real, until you say `assume(y, complex)`.
+- series carry their remainder term.
+
+Every boxed expression on the page is a live math field in the running notebook: click,
+edit the mathematics, press <kbd>Enter</kbd>, and the cell recomputes. Since each one is
+ordinary Xcas source, all ~1800 GIAC commands are one keystroke away.
+
+## 3 · The Laplace Transform
+
+A lesson, not a demonstration. It builds the transform up through three physical systems
+— exponential decay, a first-order RC circuit, and the damped harmonic oscillator —
+around the one idea that makes it worth learning: differentiation in time becomes
+multiplication by ``s``, so a differential equation turns into algebra.
+
+Ten exercises across three sections grade themselves as you type:
+
+| section | exercises |
+|:--|:--|
+| Meeting the transform | ``\mathcal{L}\{e^{-at}\}``, ``\mathcal{L}\{\sin \omega t\}``, and one inverse |
+| First-order systems | transform the decay law, invert it, then a numeric half-life |
+| Second-order systems | the oscillator's transfer function, ``\omega_n``, ``\zeta``, and classifying the regime |
+
+Symbolic answers are typed into a live math field and compared by algebraic equivalence,
+so any equivalent form counts. Numeric answers are written as Julia functions and checked
+against a reference on fixed cases. See [Autograding](grading.md) for how that works, and
+how to write a lesson of your own.
+
+## 4 · Custom Controls Playground
+
+The scratchpad where the extension points get taken apart: `slateRegisterWidget`,
+`slateRegisterEditorExtension`, and the giac↔LaTeX bridge handlers behind them. It shows
+a Giac variable dropped straight into **prose** with `gmath` and `gdisplay` and
+re-typesetting as the variable changes, then `giac"…"` running live in a real code cell —
+no sandbox — with <kbd>⌘</kbd>/<kbd>Ctrl</kbd>+<kbd>M</kbd> inserting a fresh field.
+
+Read it for the mechanism, not for the mathematics. [Math input](math-input.md) is the
+prose version of the same material.
+
+## How these pages are built
+
+```sh
+julia --project=docs docs/render.jl   # executes the notebooks, fills docs/slate_cache
+julia --project=docs docs/make.jl     # builds the site, executes no cell
+```
+
+The split is deliberate: the job that runs notebook code holds no secrets, and the job
+that holds `DOCUMENTER_KEY` runs with `execution = :never`, where a cache miss raises
+rather than falling back to executing. See [Getting started](getting-started.md#Building-this-documentation).
+
+!!! note "Two cells of notebook 1 show an error here"
+    They read `fkey.value` from a `Select`, which is correct in a live Slate session but
+    not under the headless default KaimonSlate binds. The notebook is fine when you open
+    it with `slate`. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    defect 1.
+
+
+---
+
 ## Section: The notebooks > Symbolic Computation with Giac.jl
 <!-- Source: notebooks/giac_intro.md -->
 
@@ -301,12 +424,12 @@ KaimonSlate.serve_notebook("giac_intro.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_intro/Dockerfile) | `ae39430b941dd157fbe23edbf18f040cb63023eeb459397a6ead1c0bf6df687d` |
     | [`Manifest.toml`](downloads/giac_intro/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `efc9d400d6ceefb35ce639830ca3e1c98a72926583e16d05368318b88087f646` |
+    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `3540870c999997e52797de081bfbc1645d9b0b8b277ba46b7a466c8a55ac6131` |
     | [`Project.toml`](downloads/giac_intro/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_intro/README.md) | `20b3f398028cb6ae7cadab4e5d9c11296c0da7afc7388af1b742c40620c4e0c0` |
     | [`devcontainer.json`](downloads/giac_intro/devcontainer.json) | `7738cb88b4a6e4848d4545f555750df97fe66b5137f84be8931bc06eb368682e` |
     | [`giac_intro.jl`](downloads/giac_intro/giac_intro.jl) | `3eb63acbad5e77d998fb649e7ffbcc812e9e5b315b01e25b46887c47a3fb5d44` |
-    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `fb4c14dfea36ae56c6771f4824f1ba451c9095e0f435c55888c8c6f696c7ba83` |
+    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `aa4d87b7987ab2d508b76d1f78713452e94b46e5203cc01faafbda882df6b14f` |
 
 
 ```
@@ -756,12 +879,12 @@ KaimonSlate.serve_notebook("giac_tour.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_tour/Dockerfile) | `25da180af2270a539f8a8e91d3af1bdf0767064bde4b32dc040b256430fad4da` |
     | [`Manifest.toml`](downloads/giac_tour/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `dd60f1c80cf689443a029c9f79ecedd6efa4b9d2f229412f14e257afcf3413d8` |
+    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `a3d6dbcee741b53b0818e94d4487c5403e46760d74fcb8c9903834ab70ac7645` |
     | [`Project.toml`](downloads/giac_tour/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_tour/README.md) | `1cafa944a60cf3a228806b9042cd239a667850212d989124a9c06a51b2ddc886` |
     | [`devcontainer.json`](downloads/giac_tour/devcontainer.json) | `8be8328084037687160df70959100eac8afd58b6ea8ffba04e33851a5abd002f` |
     | [`giac_tour.jl`](downloads/giac_tour/giac_tour.jl) | `3fe5869421a9563bd3bb8eabeeef6024ab73cdfe2e7d135b51f16083c41fce97` |
-    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `ce940f7e55f4908847087dd1e45d5e7e812e21e9ff3091467b5af8aa4229e5f8` |
+    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `65ab0b72f22e3012bc7f767c5a62efc73a4ba1d664d692f4e011f324200a79f8` |
 
 
 ```
@@ -1110,12 +1233,12 @@ KaimonSlate.serve_notebook("laplace_lesson.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/laplace_lesson/Dockerfile) | `d31c65b1308c9c75658f1149ad498ef75cea1f41c8330d405c8d8ad105520a39` |
     | [`Manifest.toml`](downloads/laplace_lesson/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `39263623f4329d79806bc79f8e06cd581b6dfcfec72453ca876755ac011d9dd7` |
+    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `f008a25d1d4c85fd4ada87462648e84d24f5130385d8a7425158fab525f2e51f` |
     | [`Project.toml`](downloads/laplace_lesson/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/laplace_lesson/README.md) | `7044c064ef78527786f5273f47b357aa83b6ca233b9bb980617bb144e42f25f4` |
     | [`devcontainer.json`](downloads/laplace_lesson/devcontainer.json) | `441c16daeecacf87bd95b9800e25c8e8b4a7c785439983e980fb6a04614ec573` |
     | [`laplace_lesson.jl`](downloads/laplace_lesson/laplace_lesson.jl) | `4c5e298cb974445119b5ed2a92e3a464e0198bac4c08e0dfdcf8156f8a11efde` |
-    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `7c27d8c4d560eda716e177e697760ef39a0f3e20e4fd4b14d56dabad1021a16f` |
+    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `1740d148afd43c40153498a7e96ecd5f6bd8a4525de645d2b59ff643db298604` |
 
 
 ```julia
@@ -1536,11 +1659,11 @@ KaimonSlate.serve_notebook("custom_controls.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/custom_controls/Dockerfile) | `d8a01104d6bb3c487b542fc6e00d94c1ba8ccd0eddce53b19383c89ef8768a13` |
     | [`Manifest.toml`](downloads/custom_controls/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `2e7784a3c5fe6fc1873e8e5120e5a4594ebc125773de0e4d02fe97d660958a77` |
+    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `08224e2cbe3225976b56656cef9995d3b0465c0c56a88f30628952199e522126` |
     | [`Project.toml`](downloads/custom_controls/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/custom_controls/README.md) | `38001bf5d549633b958bb41bc53ffbdaa05933574f71deebbff347740a117351` |
     | [`custom_controls.jl`](downloads/custom_controls/custom_controls.jl) | `402f8276b9fa2fee6e29f937c757a39d0c16679efd06e3c6e3c7637c4d6ead61` |
-    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `ea624cc5e1270176b333e5d8b3a526d90ffa4b33c76b8ffcc7c1595fb0a97463` |
+    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `9fecced6d232e2a4671cc8bc1fa89edbcddc58b0dc4d4868b2bb4d45f20adc9b` |
     | [`devcontainer.json`](downloads/custom_controls/devcontainer.json) | `8ce45784a0d2bfa78d7078ae35df6c0431a4e369259eb77939bbfcce1a1cbcf2` |
 
 
