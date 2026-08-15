@@ -106,14 +106,15 @@ becomes `x_0`.
 The pages under **The notebooks** on this site are the real output of those files,
 executed headlessly.
 
-!!! note "Two cells of `giac_intro.jl` show an error on this site"
-    They read `fkey.value` from a labeled `Select`, which is what the widget contract
-    says to do. It fails because KaimonSlate registers its built-in widget kinds at
-    module top level rather than in `__init__`, so the registration is lost to
-    precompilation and the kind registry is empty at run time — the bind then returns a
-    bare `String` instead of a `Choice`. This affects a live Slate session too; the
-    documentation build is simply what executes these cells in CI. See
-    [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+!!! note "One upstream defect is repaired on load"
+    KaimonSlate registers its built-in widget kinds at module top level rather than in
+    `__init__`, so precompilation discards the registration and the kind registry is
+    empty at run time. A labeled `Select` then binds a bare `String` instead of the
+    documented `Choice` — and `coerce`/`reconcile` are inert for every kind, so no
+    widget reconciles its value across a re-run. `GiacSlate.__init__` repairs this, which
+    is why `using GiacSlate` matters even in a notebook that only wants the math field.
+    It is a no-op once the registry is populated, so it retires itself when the upstream
+    fix lands. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
     defect 1.
 
 ## Building this documentation

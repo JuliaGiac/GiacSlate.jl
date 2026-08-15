@@ -12,6 +12,16 @@ include("laplace_lesson.jl")
 include("mathfield.jl")
 # giac"…" macro, gmath/gdisplay for markdown, and the editor's conversion bridge.
 include("inline_math.jl")
+# Repairs for upstream defects — see UPSTREAM.md. Delete along with the defects.
+include("workarounds.jl")
+
+# Runs at load, which is the point: the state it repairs is cross-module global state that
+# precompilation drops (UPSTREAM.md §1), so it cannot be established at precompile time —
+# the very mistake being worked around.
+function __init__()
+    _ensure_widget_kinds!()
+    return nothing
+end
 
 # The notebook only ever calls these. The front-end (the `Mathfield` renderer + the inline-math editor
 # extension + its giac bridge handlers) wires itself up on `using GiacSlate` — no boot cell, no exports.

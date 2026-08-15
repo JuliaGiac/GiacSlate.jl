@@ -109,10 +109,13 @@ The split is deliberate: the job that runs notebook code holds no secrets, and t
 that holds `DOCUMENTER_KEY` runs with `execution = :never`, where a cache miss raises
 rather than falling back to executing. See [Getting started](getting-started.md#Building-this-documentation).
 
-!!! note "Two cells of notebook 1 show an error here"
-    They read `fkey.value` from a labeled `Select`, as the widget contract says to. It
-    fails because KaimonSlate's built-in widget kinds are registered at module top level
-    instead of in `__init__`, so precompilation discards the registration and the bind
-    returns a bare `String` rather than a `Choice`. A live Slate session hits the same
-    thing. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
-    defect 1.
+Every cell of every notebook is executed, and `fail_on_error` is left at its strict
+default: a cell that throws fails the build rather than shipping as a caveat.
+
+!!! note "Where a chart should be, you will see a `Dict`"
+    An ECharts figure is a live browser chart with no server-side renderer, and
+    DocumenterSlate extracts only `image/png` and `image/svg+xml` as page assets — so
+    such a cell is written out as its `text/plain` form, option dictionary and data
+    series included. Three cells are affected. In the running notebook they are ordinary
+    interactive plots. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    defect 3.

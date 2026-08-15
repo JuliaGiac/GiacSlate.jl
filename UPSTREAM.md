@@ -49,24 +49,48 @@ loads KaimonSlate from its precompile cache, so a live Slate session is affected
 identically. It happens to surface here because the documentation build is the thing
 that executes these cells in CI.
 
-**Consequence here** — two cells of `notebooks/giac_intro.jl` (`taylor_explorer` and
-`taylor_symbolic`) fail. The other three notebooks execute cleanly; 93 cells in total.
+**Consequence** — before the workaround below, two cells of `notebooks/giac_intro.jl`
+(`taylor_explorer` and `taylor_symbolic`) failed with `FieldError(String, :value)`. Less
+visibly, `coerce` and `reconcile` were inert for all eleven kinds too, so no widget
+reconciled its value across a re-run as documented.
 
-**Workaround** — `docs/slate_options.jl` sets `fail_on_error = false`, so the two cells
-render with their error on the page instead of aborting the whole build.
-`collect_build_statuses` still reports the failure in the CI job summary.
+**Workaround** — `GiacSlate._ensure_widget_kinds!` in `src/workarounds.jl`, called from
+`GiacSlate.__init__`. Every notebook here does `using GiacSlate`, and KaimonSlate is
+already loaded by then (the notebook preamble imports it on line 1), so the registry is
+repaired before any `@bind` cell runs — headless and live alike. It is a no-op when the
+registry is already populated, so it retires itself the day the upstream fix lands, with
+no version check to keep in sync. With it in place, all four notebooks execute cleanly
+under the strict `fail_on_error = true`.
 
 **Fix** — move `_register_builtin_kinds!()` into `KaimonSlate.__init__()`, which already
 exists at `src/KaimonSlate.jl:130`. Cross-module global state has to be established at
 load time, not at precompile time.
 
-**Delete when** — that fix lands upstream. Then restore the strict
-`fail_on_error = true`, which is DocumenterSlate's own default and the setting you want
-for catching real breakage.
+**Delete when** — that fix lands upstream: delete `src/workarounds.jl`, its `include`,
+and `GiacSlate.__init__`.
 
 **Not a workaround** — changing `fkey.value` to `fkey` in the notebook. It would paper
-over the symptom in both contexts today and then break again the moment the registry is
-fixed and the bind starts returning a `Choice`, as documented.
+over the symptom today and then break again the moment the registry is fixed and the
+bind starts returning a `Choice`, as documented.
+
+## 3. ECharts figures render as a raw `Dict` dump
+
+**Where** — DocumenterSlate, `src/assets.jl`.
+
+**What happens** — a cell whose value is a `KaimonSlate.ReportEngine.EChart` is written
+into the page as its `text/plain` representation: the whole option `Dict`, data series
+included. `_ASSET_MIME_EXTENSIONS` tracks only `image/png` and `image/svg+xml`, and
+`EChart` is showable as neither — it is a live browser chart, and nothing renders it
+server-side.
+
+**Consequence here** — three cells (two in `giac_intro.jl`, one in `laplace_lesson.jl`)
+emit tens of kilobytes of coordinate pairs where a figure belongs. It is why those two
+pages need `size_threshold_ignore`. Pre-existing, not caused by defect 1's workaround —
+though fixing that defect added the third instance, by making a cell that used to fail
+succeed.
+
+**Delete when** — either DocumenterSlate learns to skip or summarise a value it cannot
+render, or something renders `EChart` to a static image. Neither is GiacSlate's to do.
 
 ## 2. Reproducible archives need GNU tar
 

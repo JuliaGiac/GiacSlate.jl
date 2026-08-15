@@ -33,6 +33,7 @@
 !/src/inline_math.jl
 !/src/laplace_lesson.jl
 !/src/mathfield.jl
+!/src/workarounds.jl
 
 # notebooks/
 # Project.toml pins the environment the notebooks are executed in, both by the `slate`

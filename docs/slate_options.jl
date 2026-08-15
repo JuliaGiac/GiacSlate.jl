@@ -25,16 +25,15 @@ function slate_options(execution::Symbol)
         cache_dir = joinpath(@__DIR__, "slate_cache"),
         slate_toml = joinpath(@__DIR__, "slate.toml"),
         execution = execution,
-        # Not the strict default, because of one upstream defect (see UPSTREAM.md §1):
-        # KaimonSlate registers its built-in widget kinds at module top level rather than
-        # in `__init__`, so precompilation discards the registration and the kind
-        # registry is empty at run time. A labeled `Select` then binds a bare `String`
-        # instead of the documented `Choice`, and the two cells of `giac_intro.jl` that
-        # read `fkey.value` raise `FieldError(String, :value)`. With `false`, the failure
-        # is rendered on the page instead of aborting the whole build, and
-        # `collect_build_statuses` still reports it in the CI job summary. Restore the
-        # default `true` once the registration moves into `__init__` upstream.
-        fail_on_error = false,
+        # Strict: the first cell that throws fails the build. This is DocumenterSlate's
+        # own default, restated here because it is a deliberate choice and because it
+        # feeds the cache fingerprint — a silent divergence from `render.jl` would
+        # surface as an opaque cache miss, so it is spelled out rather than defaulted.
+        #
+        # It only became affordable once `GiacSlate._ensure_widget_kinds!` (UPSTREAM.md
+        # §1) repaired KaimonSlate's dropped widget-kind registry. Before that, two cells
+        # of `giac_intro.jl` failed here.
+        fail_on_error = true,
         # The parent process environment is not inherited; this is the explicit
         # allowlist. The notebooks print ζ, ωₙ and ✓ — without a UTF-8 locale the
         # captured output would come back mangled.
