@@ -1,13 +1,13 @@
 # GiacSlate.jl
 
-GiacSlate is a Julia package that integrates [Giac.jl](https://github.com/s-celles/Giac.jl) with Slate. It builds its `@bind` control and front-end boot against the lean Slate extension SDK (`SlateExtensionsBase`).
+GiacSlate is a Julia package that integrates [Giac.jl](https://github.com/JuliaGiac/Giac.jl) with Slate. It builds its `@bind` control and front-end boot against the lean Slate extension SDK (`SlateExtensionsBase`).
 
 ## Installation
 
 GiacSlate isn't registered yet, so install it directly from the repository. From the Pkg REPL (press `]`):
 
 ```julia-repl
-pkg> add https://github.com/s-celles/GiacSlate.jl
+pkg> add https://github.com/JuliaGiac/GiacSlate.jl
 ```
 
 *(Once GiacSlate is registered, `pkg> add GiacSlate` will be the one-liner.)*
@@ -19,7 +19,7 @@ The `notebooks/` directory contains interactive [Kaimon Slate](https://github.co
 To run them, ensure you have the `slate` CLI installed and run:
 
 ```sh
-git clone https://github.com/s-celles/GiacSlate.jl.git
+git clone https://github.com/JuliaGiac/GiacSlate.jl.git
 cd GiacSlate.jl
 slate notebooks/giac_intro.jl
 ```
