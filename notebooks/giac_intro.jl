@@ -33,7 +33,7 @@ taylor_poly(expr, n) =
 
 Giac (the engine behind Xcas) gives us exact algebra, calculus, and linear
 algebra. Here we drive it from Julia through
-[`Giac.jl`](https://github.com/s-celles/Giac.jl) and let Slate render every
+[`Giac.jl`](https://github.com/JuliaGiac/Giac.jl) and let Slate render every
 result as typeset mathematics — no floating-point roundoff anywhere below.
 """
 

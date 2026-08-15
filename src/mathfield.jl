@@ -152,13 +152,6 @@ const _DECORATIONS = Set([
     "Tilde", "OverTilde", "Dot", "OverDot", "DoubleDot", "Prime", "Overscript", "Underscript",
 ])
 
-"""
-    mathfield_to_giac(mathjson) -> GiacExpr | missing
-
-Convert a MathLive `<math-field>` MathJSON payload (a raw JSON string, or the
-already-parsed value) into a `GiacExpr`. An empty field yields `missing`, so it
-flows through the autograder as "not answered yet".
-"""
 # ── The `Mathfield` @bind control ─────────────────────────────────────────────
 # `Mathfield()` is a typed `@bind` control via SlateExtensionsBase's `to_widget` seam: the reader
 # edits a MathLive `<math-field>` and the bound variable receives their expression as MathJSON (a
@@ -185,6 +178,13 @@ SlateExtensionsBase.to_widget(m::Mathfield) = auto_widget(m)
 # The component this widget's kind needs — loaded once, the first time a `Mathfield` is bound.
 SlateExtensionsBase.required_assets(::Type{Mathfield}) = @pkg_asset("assets/mathfield.js")
 
+"""
+    mathfield_to_giac(mathjson) -> GiacExpr | missing
+
+Convert a MathLive `<math-field>` MathJSON payload (a raw JSON string, or the
+already-parsed value) into a `GiacExpr`. An empty field yields `missing`, so it
+flows through the autograder as "not answered yet".
+"""
 function mathfield_to_giac(json::AbstractString)
     isempty(strip(json)) && return missing
     _mf_value(JSON.parse(json))          # parse the JSON exactly once

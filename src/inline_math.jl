@@ -34,18 +34,38 @@ end
 _giac_tex(e) = strip(sprint(show, MIME("text/latex"), e), ['$', '\n', ' '])
 
 """
-    gmath(e)  ·  gdisplay(e)
+    gmath(e)
 
-Render a `GiacExpr` (or anything with a `text/latex` show) as a LaTeX string wrapped for
-markdown: `gmath` inline (`\$…\$`), `gdisplay` as a display block (`\$\$…\$\$`). Use inside
-a markdown cell's `{{ … }}` interpolation to typeset a code-cell math variable — e.g.
-`The transfer function is {{ gmath(H) }}.` The cell re-renders when the variable changes.
+Render a `GiacExpr` (or anything with a `text/latex` show) as an **inline** LaTeX string
+wrapped for markdown (`\$…\$`). Use inside a markdown cell's `{{ … }}` interpolation to
+typeset a code-cell math variable — e.g. `The transfer function is {{ gmath(H) }}.` The
+cell re-renders when the variable changes.
+
+See [`gdisplay`](@ref) for the display-block form.
 """
-gmath(e)    = "\$" * _giac_tex(e) * "\$"
+gmath(e) = "\$" * _giac_tex(e) * "\$"
+
+"""
+    gdisplay(e)
+
+As [`gmath`](@ref), but wrapping the LaTeX as a **display block** (`\$\$…\$\$`) rather
+than inline — for an expression that deserves its own centred line in the prose.
+"""
 gdisplay(e) = "\$\$" * _giac_tex(e) * "\$\$"
 
-# giac source → LaTeX (display side of the editor bridge). GIAC is lenient — it returns
-# `undef` for malformed input instead of throwing — so treat that as an error too.
+"""
+    giac_src_to_tex(src) -> String
+
+Convert GIAC source into the LaTeX the math field displays — the *display* side of the
+editor bridge, exposed to the front-end as the `giac_tex` handler.
+
+An empty source yields `""`. GIAC is lenient and returns `undef` for malformed input
+instead of throwing, so `undef` is treated as an error here and raised: a field that
+cannot be parsed must show as broken, not as the literal word `undef`.
+
+The source is canonicalised first (`_canon_src`), so a directly-typed `ω` displays as
+`\\omega` rather than as an unknown glyph.
+"""
 function giac_src_to_tex(src::AbstractString)
     isempty(strip(src)) && return ""
     g = Giac.giac_eval(_canon_src(String(src)))    # canonicalise so a typed ω displays as \omega
@@ -53,7 +73,21 @@ function giac_src_to_tex(src::AbstractString)
     _giac_tex(g)
 end
 
-# MathLive MathJSON → giac SOURCE string (write-back side). Empty / error payloads → "".
+"""
+    mathjson_to_giac_src(json) -> String
+
+Convert a MathLive MathJSON payload (a raw JSON string) into GIAC **source** — the
+*write-back* side of the editor bridge, exposed to the front-end as the `giac_src`
+handler. This is what turns what the reader typed in a math field back into the text
+of the `giac"…"` literal in the cell.
+
+Empty input, a `null`/`"Nothing"` payload, and MathLive's `["Error", …]` payload (an
+empty or invalid field, or an engine that isn't ready) all yield `""` rather than
+throwing — a half-typed formula must not break the cell being edited.
+
+Unlike [`mathfield_to_giac`](@ref), which evaluates and returns a `GiacExpr`, this
+returns source text and evaluates nothing.
+"""
 function mathjson_to_giac_src(json::AbstractString)
     isempty(strip(json)) && return ""
     x = JSON.parse(json)

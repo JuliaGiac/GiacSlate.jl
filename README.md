@@ -1,6 +1,10 @@
 # GiacSlate.jl
 
+[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://juliagiac.github.io/GiacSlate.jl/)
+
 GiacSlate is a Julia package that integrates [Giac.jl](https://github.com/JuliaGiac/Giac.jl) with Slate. It builds its `@bind` control and front-end boot against the lean Slate extension SDK (`SlateExtensionsBase`).
+
+📖 **[Read the documentation](https://juliagiac.github.io/GiacSlate.jl/)** — a guide to the math input, the autograder, the API reference, and every notebook rendered as a page.
 
 ## Installation
 

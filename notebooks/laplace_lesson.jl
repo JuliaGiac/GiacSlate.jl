@@ -29,7 +29,7 @@ A working introduction for students: learn the Laplace transform by using it to
 solve real physics problems — decaying charge on a capacitor, a damped
 oscillator, driven resonance — then check your understanding with exercises that
 grade themselves. Every symbolic result below is computed live by the
-[Giac](https://github.com/s-celles/Giac.jl) computer algebra system, so you can
+[Giac](https://github.com/JuliaGiac/Giac.jl) computer algebra system, so you can
 change a number and watch the mathematics follow.
 """
 

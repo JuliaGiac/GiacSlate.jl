@@ -1,0 +1,21 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterLandingPage = "1c52b33b-3e2f-4e99-b3b5-a6ad63f0d6d2"
+DocumenterSlate = "da032acd-1f97-49c4-b071-4dc054a215b5"
+Giac = "e4421f97-9838-4fd0-9fa5-94f11373bf78"
+GiacSlate = "f4c9f34b-fa6a-4506-9309-e8c0bac809fa"
+KaimonSlate = "f7b954f5-0334-4562-ac21-b005218ce1da"
+
+# Neither DocumenterSlate nor DocumenterLandingPage is in the General registry, and
+# neither is GiacSlate itself (see the README). `[sources]` resolves all three without
+# committing a Manifest.
+[sources]
+DocumenterLandingPage = {url = "https://github.com/csvance/DocumenterLandingPage.jl"}
+DocumenterSlate = {url = "https://github.com/s-celles/DocumenterSlate.jl"}
+GiacSlate = {path = ".."}
+
+[compat]
+Documenter = "1.17"
+Giac = "0.14.2"
+KaimonSlate = "1"
+julia = "1.12"
