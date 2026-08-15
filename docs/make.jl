@@ -44,7 +44,13 @@ notebook_pages = [title => joinpath("notebooks", relpath) for (title, relpath) i
 const PAGES = [
     "Home" => "index.md",
     "Getting started" => "getting-started.md",
-    "The notebooks" => notebook_pages,
+    # `notebooks.md` leads the section so the group has a real page of its own at
+    # `/notebooks/`. Without it that URL 404s: `notebooks/` would be only a directory
+    # holding the generated pages, and a Documenter sidebar group is a collapsible
+    # header, not a page. The landing page's hero button links straight to it.
+    # `src/notebooks.md` renders to `build/notebooks/index.html`, alongside — not
+    # colliding with — `build/notebooks/<slug>/index.html`.
+    "The notebooks" => Any["Overview" => "notebooks.md"; notebook_pages],
     "Math input" => "math-input.md",
     "Autograding" => "grading.md",
     "API reference" => "api.md",
