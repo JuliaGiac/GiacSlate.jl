@@ -1,0 +1,20 @@
+# GiacSlate.jl
+> Giac — the computer algebra engine behind Xcas — inside reactive Kaimon Slate notebooks: live MathLive math fields, typeset results, and self-grading exercises.
+
+## Documentation
+
+- [Home]()
+- [Getting started](getting-started/)
+- [The notebooks > Symbolic Computation with Giac.jl](notebooks/giac_intro/)
+- [The notebooks > A Tour of GIAC](notebooks/giac_tour/)
+- [The notebooks > The Laplace Transform](notebooks/laplace_lesson/)
+- [The notebooks > Custom Controls Playground](notebooks/custom_controls/)
+- [Math input](math-input/)
+- [Autograding](grading/)
+- [API reference](api/)
+
+## Optional
+
+- [Repository](https://github.com/JuliaGiac/GiacSlate.jl): the notebooks themselves, in `notebooks/`.
+- [Giac.jl](https://github.com/JuliaGiac/Giac.jl): the Julia wrapper these notebooks drive.
+- [Full text](llms-full.txt): every documentation page concatenated.

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Symbolic Computation with Giac.jl · GiacSlate.jl</title><meta name="title" content="Symbolic Computation with Giac.jl · GiacSlate.jl"/><meta property="og:title" content="Symbolic Computation with Giac.jl · GiacSlate.jl"/><meta property="twitter:title" content="Symbolic Computation with Giac.jl · GiacSlate.jl"/><meta name="description" content="Documentation for GiacSlate.jl."/><meta property="og:description" content="Documentation for GiacSlate.jl."/><meta property="twitter:description" content="Documentation for GiacSlate.jl."/><meta property="og:url" content="https://juliagiac.github.io/GiacSlate.jl/notebooks/giac_intro/"/><meta property="twitter:url" content="https://juliagiac.github.io/GiacSlate.jl/notebooks/giac_intro/"/><link rel="canonical" href="https://juliagiac.github.io/GiacSlate.jl/notebooks/giac_intro/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/documenterlandingpage/landing.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="GiacSlate.jl logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="GiacSlate.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">GiacSlate.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting-started/">Getting started</a></li><li><span class="tocitem">The notebooks</span><ul><li class="is-active"><a class="tocitem" href>Symbolic Computation with Giac.jl</a><ul class="internal"><li><a class="tocitem" href="#giac_intro-a-computer-algebra-system-live-in-a-slate-notebook"><span>A computer algebra system, live in a Slate notebook</span></a></li><li><a class="tocitem" href="#giac_intro-1-algebra-exact-not-approximate"><span>1. Algebra — exact, not approximate</span></a></li><li><a class="tocitem" href="#giac_intro-2-calculus-derivatives-integrals-limits"><span>2. Calculus — derivatives, integrals, limits</span></a></li><li><a class="tocitem" href="#giac_intro-3-interactive-taylor-series-live"><span>3. Interactive: Taylor series, live</span></a></li><li><a class="tocitem" href="#giac_intro-4-laplace-transforms"><span>4. Laplace transforms</span></a></li><li><a class="tocitem" href="#giac_intro-5-a-second-order-system-end-to-end"><span>5. A second-order system, end to end</span></a></li><li><a class="tocitem" href="#giac_intro-6-symbolic-linear-algebra"><span>6. Symbolic linear algebra</span></a></li></ul></li><li><a class="tocitem" href="../giac_tour/">A Tour of GIAC</a></li><li><a class="tocitem" href="../laplace_lesson/">The Laplace Transform</a></li><li><a class="tocitem" href="../custom_controls/">Custom Controls Playground</a></li></ul></li><li><a class="tocitem" href="../../math-input/">Math input</a></li><li><a class="tocitem" href="../../grading/">Autograding</a></li><li><a class="tocitem" href="../../api/">API reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">The notebooks</a></li><li class="is-active"><a href>Symbolic Computation with Giac.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Symbolic Computation with Giac.jl</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaGiac/GiacSlate.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaGiac/GiacSlate.jl/blob/main/docs/src/notebooks/giac_intro.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><div class="slate-actions">
+  <a class="button is-link slate-download-button" href="downloads/giac_intro/giac_intro.tar.gz" download>Download notebook</a>
+  <details class="slate-inspect">
+    <summary>Inspect locally</summary>
+    <p><strong>Do not run the notebook before reviewing it.</strong> Verify the archive, then use KaimonSlate's inactive view, which does not start a worker or evaluate cells.</p>
+    <pre><code>using DocumenterSlate
+verify_slate_bundle("giac_intro.tar.gz")</code></pre>
+    <pre><code>using KaimonSlate
+KaimonSlate.serve_notebook("giac_intro.jl"; inactive = true)</code></pre>
+  </details>
+</div><div class="admonition is-warning" id="Download-and-inspect-safely-92669a918f9adbdc"><header class="admonition-header">Download and inspect safely<a class="admonition-anchor" href="#Download-and-inspect-safely-92669a918f9adbdc" title="Permalink"></a></header><div class="admonition-body"><p>This notebook is arbitrary code. Instantiating its environment may run package build scripts, and live opening may execute cells.</p><p><a href="../downloads/giac_intro/giac_intro.jl">Download source</a> · <a href="../downloads/giac_intro/SHA256SUMS">Checksums</a> · <a href="../downloads/giac_intro/PROVENANCE.toml">Provenance</a> · <a href="../downloads/giac_intro/README/">Local instructions</a></p><p>Verify after downloading the directory: <code>sha256sum -c SHA256SUMS</code>.</p><p>Inspect without starting a worker or executing cells:</p><pre><code class="language-julia hljs">using KaimonSlate
+KaimonSlate.serve_notebook(&quot;giac_intro.jl&quot;; inactive = true)</code></pre><table><tr><th style="text-align: left">Artifact</th><th style="text-align: left">SHA-256</th></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/Dockerfile"><code>Dockerfile</code></a></td><td style="text-align: left"><code>ae39430b941dd157fbe23edbf18f040cb63023eeb459397a6ead1c0bf6df687d</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/Manifest.toml"><code>Manifest.toml</code></a></td><td style="text-align: left"><code>f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/PROVENANCE.toml"><code>PROVENANCE.toml</code></a></td><td style="text-align: left"><code>efc9d400d6ceefb35ce639830ca3e1c98a72926583e16d05368318b88087f646</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/Project.toml"><code>Project.toml</code></a></td><td style="text-align: left"><code>47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/README/"><code>README.md</code></a></td><td style="text-align: left"><code>20b3f398028cb6ae7cadab4e5d9c11296c0da7afc7388af1b742c40620c4e0c0</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/devcontainer.json"><code>devcontainer.json</code></a></td><td style="text-align: left"><code>7738cb88b4a6e4848d4545f555750df97fe66b5137f84be8931bc06eb368682e</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/giac_intro.jl"><code>giac_intro.jl</code></a></td><td style="text-align: left"><code>3eb63acbad5e77d998fb649e7ffbcc812e9e5b315b01e25b46887c47a3fb5d44</code></td></tr><tr><td style="text-align: left"><a href="../downloads/giac_intro/giac_intro.tar.gz"><code>giac_intro.tar.gz</code></a></td><td style="text-align: left"><code>fb4c14dfea36ae56c6771f4824f1ba451c9095e0f435c55888c8c6f696c7ba83</code></td></tr></table></div></div><pre><code class="nohighlight hljs">Giac ready — variables x, a, t, s; helpers tex / mathblock / taylor_poly loaded.</code></pre><h1 id="giac_intro-symbolic-computation-with-giac-jl"><a class="docs-heading-anchor" href="#giac_intro-symbolic-computation-with-giac-jl">Symbolic Computation with Giac.jl</a><a id="giac_intro-symbolic-computation-with-giac-jl-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-symbolic-computation-with-giac-jl" title="Permalink"></a></h1><h2 id="giac_intro-a-computer-algebra-system-live-in-a-slate-notebook"><a class="docs-heading-anchor" href="#giac_intro-a-computer-algebra-system-live-in-a-slate-notebook">A computer algebra system, live in a Slate notebook</a><a id="giac_intro-a-computer-algebra-system-live-in-a-slate-notebook-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-a-computer-algebra-system-live-in-a-slate-notebook" title="Permalink"></a></h2><p>Giac (the engine behind Xcas) gives us exact algebra, calculus, and linear algebra. Here we drive it from Julia through <a href="https://github.com/JuliaGiac/Giac.jl"><code>Giac.jl</code></a> and let Slate render every result as typeset mathematics — no floating-point roundoff anywhere below.</p><h2 id="giac_intro-1-algebra-exact-not-approximate"><a class="docs-heading-anchor" href="#giac_intro-1-algebra-exact-not-approximate">1. Algebra — exact, not approximate</a><a id="giac_intro-1-algebra-exact-not-approximate-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-1-algebra-exact-not-approximate" title="Permalink"></a></h2><p>Factoring, expanding, simplifying, and partial-fraction decomposition all return closed forms, which Slate typesets directly.</p><pre><code class="language-julia hljs">mathblock([
+    &quot;x^4 - 1 &amp;= &quot; * tex(factor(x^4 - 1)),
+    &quot;(x+2)^4 &amp;= &quot; * tex(expand((x + 2)^4)),
+    &quot;\\frac{x^2+3x+2}{x+1} &amp;= &quot; * tex(simplify((x^2 + 3x + 2) / (x + 1))),
+    &quot;\\frac{1}{x^2-1} &amp;= &quot; * tex(partfrac(1 / (x^2 - 1))),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}x^4 - 1 &amp;= \left(x-1\right) \left(x+1\right) \left(x^{2}+1\right) \\[6pt] (x+2)^4 &amp;= x^{4}+8 x^{3}+24 x^{2}+32 x+16 \\[6pt] \frac{x^2+3x+2}{x+1} &amp;= x+2 \\[6pt] \frac{1}{x^2-1} &amp;= \frac{1}{2 \left(x-1\right)}-\frac{1}{2 \left(x+1\right)}\end{aligned}
+$$
+</code></pre><p>Equation solving returns <strong>exact</strong> roots — rational, irrational, and complex.</p><pre><code class="language-julia hljs"># Exact roots, including irrational and complex ones
+mathblock([
+    &quot;x^2 - 5x + 6 = 0 &amp;\\;\\Rightarrow\\; x \\in &quot; * tex(solve(x^2 - 5x + 6, x)),
+    &quot;x^2 - 2 = 0 &amp;\\;\\Rightarrow\\; x \\in &quot; * tex(solve(x^2 - 2, x)),
+    &quot;x^2 + 1 = 0 &amp;\\;\\Rightarrow\\; x \\in &quot; * tex(solve(x^2 + 1, x)),
+    &quot;x^3 - x = 0 &amp;\\;\\Rightarrow\\; x \\in &quot; * tex(solve(x^3 - x, x)),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}x^2 - 5x + 6 = 0 &amp;\;\Rightarrow\; x \in \left[2,3\right] \\[6pt] x^2 - 2 = 0 &amp;\;\Rightarrow\; x \in \left[-\sqrt{2},\sqrt{2}\right] \\[6pt] x^2 + 1 = 0 &amp;\;\Rightarrow\; x \in \left[\right] \\[6pt] x^3 - x = 0 &amp;\;\Rightarrow\; x \in \left[-1,0,1\right]\end{aligned}
+$$
+</code></pre><h2 id="giac_intro-2-calculus-derivatives-integrals-limits"><a class="docs-heading-anchor" href="#giac_intro-2-calculus-derivatives-integrals-limits">2. Calculus — derivatives, integrals, limits</a><a id="giac_intro-2-calculus-derivatives-integrals-limits-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-2-calculus-derivatives-integrals-limits" title="Permalink"></a></h2><p>The engine differentiates and integrates in closed form and evaluates limits, including improper ones.</p><pre><code class="language-julia hljs">f = x * sin(x)
+mathblock([
+    &quot;\\frac{d}{dx}\\,x\\sin x &amp;= &quot; * tex(diff(f, x)),
+    &quot;\\int x\\,e^{x}\\,dx &amp;= &quot; * tex(integrate(x * exp(x), x)),
+    &quot;\\int_{0}^{\\pi}\\sin x\\,dx &amp;= &quot; * tex(integrate(sin(x), x, 0, Giac.giac_eval(&quot;pi&quot;))),
+    &quot;\\lim_{x\\to 0}\\frac{\\sin x}{x} &amp;= &quot; * tex(limit(sin(x) / x, x, 0)),
+    &quot;\\lim_{x\\to\\infty}\\left(1+\\tfrac{1}{x}\\right)^{x} &amp;= &quot; * tex(limit((1 + 1/x)^x, x, Inf)),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}\frac{d}{dx}\,x\sin x &amp;= \sin x+x \cos x \\[6pt] \int x\,e^{x}\,dx &amp;= x \mathrm{e}^{x}-\mathrm{e}^{x} \\[6pt] \int_{0}^{\pi}\sin x\,dx &amp;= 2 \\[6pt] \lim_{x\to 0}\frac{\sin x}{x} &amp;= 1 \\[6pt] \lim_{x\to\infty}\left(1+\tfrac{1}{x}\right)^{x} &amp;= \mathrm{e}\end{aligned}
+$$
+</code></pre><h2 id="giac_intro-3-interactive-taylor-series-live"><a class="docs-heading-anchor" href="#giac_intro-3-interactive-taylor-series-live">3. Interactive: Taylor series, live</a><a id="giac_intro-3-interactive-taylor-series-live-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-3-interactive-taylor-series-live" title="Permalink"></a></h2><p>Pick a function and a truncation order. Giac computes the Taylor polynomial about <span>$x = 0$</span> <strong>symbolically</strong>; we compile it to a Julia function with <code>build_function</code> and plot it against the exact curve. Push the order up and watch the polynomial hug the true function — then notice how <span>$\arctan x$</span> still diverges past its radius of convergence <span>$|x| = 1$</span>, no matter how many terms you add.</p><pre><code class="language-julia hljs">@bind fkey Select([&quot;sin(x)&quot; =&gt; &quot;sin x&quot;, &quot;cos(x)&quot; =&gt; &quot;cos x&quot;,
+                   &quot;exp(x)&quot; =&gt; &quot;exp x&quot;, &quot;atan(x)&quot; =&gt; &quot;arctan x&quot;];
+                  label=&quot;f(x)&quot;)
+@bind ord Slider(1:2:15; default=5, label=&quot;order n&quot;)
+
+fexpr  = Giac.giac_eval(fkey.value)
+poly   = taylor_poly(fexpr, ord)
+approx = build_function(poly, x)
+truef  = build_function(fexpr, x)
+
+xs   = collect(range(-3, 3; length=241))
+ytru = truef.(xs)
+yapp = approx.(xs)
+
+# keep the view framed on the true curve even when the series runs off
+ymax = maximum(abs, ytru) * 1.6
+yapp = clamp.(yapp, -ymax, ymax)
+
+echart(series(:line, xs, ytru; name=&quot;f(x) = $(fkey.value)&quot;, smooth=true, symbol=&quot;none&quot;),
+       series(:line, xs, yapp; name=&quot;Taylor, order $ord&quot;, smooth=true, symbol=&quot;none&quot;,
+              lineStyle=(type=:dashed, width=2));
+       legend=true, title=&quot;Taylor approximation about x = 0&quot;,
+       yAxis=(min=round(-ymax; digits=2), max=round(ymax; digits=2)),
+       height=420)</code></pre><div class="admonition is-category-error" id="Cell-errored-16aa13aa8031700a"><header class="admonition-header">Cell errored<a class="admonition-anchor" href="#Cell-errored-16aa13aa8031700a" title="Permalink"></a></header><div class="admonition-body"><pre><code class="nohighlight hljs">FieldError: type String has no field `value`; String has no fields at all.
+
+
+Stacktrace:
+  [1] getproperty(x::String, f::Symbol)
+    @ Base ./Base_compiler.jl:54
+  [2] top-level scope
+    @ ~/work/GiacSlate.jl/GiacSlate.jl/notebooks/giac_intro.jl:6
+  [3] eval(m::Module, e::Any)
+    @ Core ./boot.jl:489
+  [4] include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+    @ Base ./loading.jl:2952
+  [5] include_string
+    @ ./loading.jl:2962 [inlined]
+  [6] _eval_cell_locked(mod::Module, cell::KaimonSlate.ReportEngine.Cell, notebook_path::String)
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:166
+  [7] #_eval_cell##0
+    @ ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:151 [inlined]
+  [8] lock(f::DocumenterSlate.var&quot;#_eval_cell##0#_eval_cell##1&quot;{Module, KaimonSlate.ReportEngine.Cell, String}, l::ReentrantLock)
+    @ Base ./lock.jl:335
+  [9] _eval_cell
+    @ ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:150 [inlined]
+ [10] _execute_cells(report::KaimonSlate.ReportEngine.Report, notebook_path::String, fail_on_error::Bool, binds::Dict{String, Any})
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:245
+ [11] _isolated_worker(request_path::String, response_path::String)
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/isolated.jl:21
+ [12] top-level scope
+    @ none:1
+ [13] eval(m::Module, e::Any)
+    @ Core ./boot.jl:489
+ [14] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:283
+ [15] _start()
+    @ Base ./client.jl:550</code></pre></div></div><pre><code class="language-julia hljs">mathblock([&quot;f(x) = $(fkey.value) &amp;\\approx &quot; * tex(poly)])</code></pre><div class="admonition is-category-error" id="Cell-errored-c619dca3ab47196d"><header class="admonition-header">Cell errored<a class="admonition-anchor" href="#Cell-errored-c619dca3ab47196d" title="Permalink"></a></header><div class="admonition-body"><pre><code class="nohighlight hljs">FieldError: type String has no field `value`; String has no fields at all.
+
+
+Stacktrace:
+  [1] getproperty(x::String, f::Symbol)
+    @ Base ./Base_compiler.jl:54
+  [2] top-level scope
+    @ ~/work/GiacSlate.jl/GiacSlate.jl/notebooks/giac_intro.jl:1
+  [3] eval(m::Module, e::Any)
+    @ Core ./boot.jl:489
+  [4] include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+    @ Base ./loading.jl:2952
+  [5] include_string
+    @ ./loading.jl:2962 [inlined]
+  [6] _eval_cell_locked(mod::Module, cell::KaimonSlate.ReportEngine.Cell, notebook_path::String)
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:166
+  [7] #_eval_cell##0
+    @ ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:151 [inlined]
+  [8] lock(f::DocumenterSlate.var&quot;#_eval_cell##0#_eval_cell##1&quot;{Module, KaimonSlate.ReportEngine.Cell, String}, l::ReentrantLock)
+    @ Base ./lock.jl:335
+  [9] _eval_cell
+    @ ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:150 [inlined]
+ [10] _execute_cells(report::KaimonSlate.ReportEngine.Report, notebook_path::String, fail_on_error::Bool, binds::Dict{String, Any})
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/execute.jl:245
+ [11] _isolated_worker(request_path::String, response_path::String)
+    @ DocumenterSlate ~/.julia/packages/DocumenterSlate/7NlUn/src/isolated.jl:21
+ [12] top-level scope
+    @ none:1
+ [13] eval(m::Module, e::Any)
+    @ Core ./boot.jl:489
+ [14] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:283
+ [15] _start()
+    @ Base ./client.jl:550</code></pre></div></div><h2 id="giac_intro-4-laplace-transforms"><a class="docs-heading-anchor" href="#giac_intro-4-laplace-transforms">4. Laplace transforms</a><a id="giac_intro-4-laplace-transforms-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-4-laplace-transforms" title="Permalink"></a></h2><p>Giac transforms between the time domain <span>$t$</span> and the complex frequency domain <span>$s$</span> exactly. <code>laplace</code> carries <span>$f(t)$</span> to <span>$F(s)$</span>; <code>ilaplace</code> inverts it. This is the workhorse of linear-systems and control theory — and a round trip should return where it started.</p><pre><code class="language-julia hljs"># Forward transforms:  f(t)  ⟶  F(s) = ∫₀^∞ f(t) e^{-st} dt
+mathblock([
+    &quot;\\mathcal{L}\\{1\\} &amp;= &quot; * tex(laplace(Giac.giac_eval(&quot;1&quot;), t, s)),
+    &quot;\\mathcal{L}\\{t^{2}\\} &amp;= &quot; * tex(laplace(t^2, t, s)),
+    &quot;\\mathcal{L}\\{e^{-2t}\\sin 3t\\} &amp;= &quot; * tex(laplace(exp(-2t) * sin(3t), t, s)),
+    &quot;\\mathcal{L}\\{t\\,e^{-t}\\} &amp;= &quot; * tex(laplace(t * exp(-t), t, s)),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}\mathcal{L}\{1\} &amp;= \frac1{s} \\[6pt] \mathcal{L}\{t^{2}\} &amp;= \frac{2}{s^{3}} \\[6pt] \mathcal{L}\{e^{-2t}\sin 3t\} &amp;= \frac{3}{s^{2}+4 s+13} \\[6pt] \mathcal{L}\{t\,e^{-t}\} &amp;= \frac1{s^{2}+2 s+1}\end{aligned}
+$$
+</code></pre><pre><code class="language-julia hljs"># Inverse transforms:  F(s)  ⟶  f(t).  A partial-fraction split makes the
+# underlying second-order system&#39;s response transparent.
+F = (s + 3) / (s^2 + 2s + 5)
+mathblock([
+    &quot;F(s) &amp;= &quot; * tex(F),
+    &quot;\\mathcal{L}^{-1}\\!\\left\\{\\tfrac{1}{s^{2}+4}\\right\\} &amp;= &quot; *
+        tex(ilaplace(1 / (s^2 + 4), s, t)),
+    &quot;\\mathcal{L}^{-1}\\{F(s)\\} &amp;= &quot; * tex(ilaplace(F, s, t)),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}F(s) &amp;= \frac{s+3}{s^{2}+2 s+5} \\[6pt] \mathcal{L}^{-1}\!\left\{\tfrac{1}{s^{2}+4}\right\} &amp;= \frac{\sin \left(2 t\right)}{2} \\[6pt] \mathcal{L}^{-1}\{F(s)\} &amp;= \cos \left(2 t\right) \mathrm{e}^{-t}+\sin \left(2 t\right) \mathrm{e}^{-t}\end{aligned}
+$$
+</code></pre><pre><code class="language-julia hljs"># Round trip: transform, invert, and simplify back to the original signal.
+g       = exp(-t) * cos(2t)
+G       = laplace(g, t, s)
+back    = simplify(ilaplace(G, s, t))
+mathblock([
+    &quot;g(t) &amp;= &quot; * tex(g),
+    &quot;\\mathcal{L}\\{g\\} = G(s) &amp;= &quot; * tex(G),
+    &quot;\\mathcal{L}^{-1}\\{G\\} &amp;= &quot; * tex(back),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}g(t) &amp;= \mathrm{e}^{-t} \cos \left(2 t\right) \\[6pt] \mathcal{L}\{g\} = G(s) &amp;= \frac{s+1}{s^{2}+2 s+5} \\[6pt] \mathcal{L}^{-1}\{G\} &amp;= \cos \left(2 t\right) \mathrm{e}^{-t}\end{aligned}
+$$
+</code></pre><h2 id="giac_intro-5-a-second-order-system-end-to-end"><a class="docs-heading-anchor" href="#giac_intro-5-a-second-order-system-end-to-end">5. A second-order system, end to end</a><a id="giac_intro-5-a-second-order-system-end-to-end-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-5-a-second-order-system-end-to-end" title="Permalink"></a></h2><p>The canonical control-theory system</p><p class="math-container">\[H(s) = \frac{\omega_n^{2}}{s^{2} + 2\zeta\omega_n s + \omega_n^{2}}\]</p><p>has behaviour governed entirely by its <strong>damping ratio</strong> <span>$\zeta$</span> and <strong>natural frequency</strong> <span>$\omega_n$</span>. Giac inverts <span>$H(s)/s$</span> <em>symbolically</em> to get the exact step response <span>$y(t)$</span> — no numerical ODE solver. Drag the sliders: the closed form, the pole locations in the complex <span>$s$</span>-plane, and the time response all update together. Watch the poles split into a complex-conjugate pair as <span>$\zeta$</span> drops below <span>$1$</span> and the response begins to ring.</p><pre><code class="language-julia hljs">@bind ζ  Slider(0.1, 2.0, 0.3; step=0.05, label=&quot;damping ζ&quot;)
+@bind ωn Slider(0.5, 4.0, 2.0; step=0.1, label=&quot;natural freq ωₙ&quot;)
+
+# Giac inverts the step response Y(s) = H(s)/s to y(t), exactly.
+ystep = Giac.giac_eval(
+    &quot;ilaplace($(ωn)^2/(s*(s^2+2*$(ζ)*$(ωn)*s+$(ωn)^2)), s, t)&quot;)
+yfun  = build_function(ystep, t)
+
+# Poles = roots of s² + 2ζωₙs + ωₙ²
+disc  = complex(ζ^2 - 1)
+poles = [-ζ*ωn + ωn*sqrt(disc), -ζ*ωn - ωn*sqrt(disc)]
+regime = ζ &lt; 1 ? &quot;under-damped (ringing)&quot; : ζ ≈ 1 ? &quot;critically damped&quot; : &quot;over-damped&quot;
+
+mathblock([&quot;y(t) &amp;= &quot; * tex(Giac.Commands.simplify(ystep))])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}y(t) &amp;= \frac{\sqrt{91} \mathrm{e}^{\frac{3}{5} t} \tan ^{2}\left(\frac{1}{10} \sqrt{91} t\right)+\sqrt{91} \mathrm{e}^{\frac{3}{5} t}+\sqrt{91} \tan ^{2}\left(\frac{1}{10} \sqrt{91} t\right)-\sqrt{91}-6 \tan \left(\frac{1}{10} \sqrt{91} t\right)}{\sqrt{91} \mathrm{e}^{\frac{3}{5} t} \tan ^{2}\left(\frac{1}{10} \sqrt{91} t\right)+\sqrt{91} \mathrm{e}^{\frac{3}{5} t}}\end{aligned}
+$$
+</code></pre><pre><code class="language-julia hljs"># Pole map in the complex s-plane. Poles in the left half-plane ⇒ stable;
+# imaginary part ⇒ oscillation.
+R  = ωn * 1.3
+px = real.(poles); py = imag.(poles)
+
+echart(series(:scatter, px, py; name=&quot;poles&quot;, symbol=&quot;path://M0,-1 L0,1 M-1,0 L1,0&quot;,
+              symbolSize=18, itemStyle=(color=&quot;#f56c6c&quot;,));
+       title=&quot;Poles in the s-plane — $regime&quot;,
+       xAxis=(name=&quot;Re(s)&quot;, min=-R, max=R, axisLine=(onZero=true,)),
+       yAxis=(name=&quot;Im(s)&quot;, min=-R, max=R, axisLine=(onZero=true,)),
+       grid=(left=60, right=30, top=50, bottom=50),
+       tooltip=(formatter=&quot;Re {@[0]}, Im {@[1]}&quot;,),
+       height=360)</code></pre><pre><code class="nohighlight hljs">KaimonSlate.ReportEngine.EChart(Dict{String, Any}(&quot;xAxis&quot; =&gt; Dict{String, Any}(&quot;name&quot; =&gt; &quot;Re(s)&quot;, &quot;max&quot; =&gt; 2.6, &quot;min&quot; =&gt; -2.6, &quot;axisLine&quot; =&gt; Dict{String, Any}(&quot;onZero&quot; =&gt; true)), &quot;animationDurationUpdate&quot; =&gt; 300, &quot;__size&quot; =&gt; Dict{String, Any}(&quot;height&quot; =&gt; 360), &quot;series&quot; =&gt; Dict{String, Any}[Dict(&quot;name&quot; =&gt; &quot;poles&quot;, &quot;symbolSize&quot; =&gt; 18, &quot;itemStyle&quot; =&gt; Dict{String, Any}(&quot;color&quot; =&gt; &quot;#f56c6c&quot;), &quot;data&quot; =&gt; [[-0.6, 1.9078784028338913], [-0.6, -1.9078784028338913]], &quot;symbol&quot; =&gt; &quot;path://M0,-1 L0,1 M-1,0 L1,0&quot;, &quot;type&quot; =&gt; &quot;scatter&quot;)], &quot;backgroundColor&quot; =&gt; &quot;transparent&quot;, &quot;yAxis&quot; =&gt; Dict{String, Any}(&quot;name&quot; =&gt; &quot;Im(s)&quot;, &quot;max&quot; =&gt; 2.6, &quot;min&quot; =&gt; -2.6, &quot;axisLine&quot; =&gt; Dict{String, Any}(&quot;onZero&quot; =&gt; true)), &quot;tooltip&quot; =&gt; Dict{String, Any}(&quot;formatter&quot; =&gt; &quot;Re {@[0]}, Im {@[1]}&quot;), &quot;grid&quot; =&gt; Dict{String, Any}(&quot;left&quot; =&gt; 60, &quot;bottom&quot; =&gt; 50, &quot;right&quot; =&gt; 30, &quot;top&quot; =&gt; 50), &quot;textStyle&quot; =&gt; Dict{String, Any}(&quot;fontFamily&quot; =&gt; &quot;inherit&quot;), &quot;title&quot; =&gt; Dict{String, Any}(&quot;text&quot; =&gt; &quot;Poles in the s-plane — under-damped (ringing)&quot;)))</code></pre><pre><code class="language-julia hljs"># Exact step response y(t), sampled from Giac&#39;s symbolic solution.
+tmax = clamp(8 / (ζ * ωn), 4, 40)
+ts   = collect(range(0, tmax; length=400))
+ys   = yfun.(ts)
+
+echart(:line, ts, ys; title=&quot;Step response y(t)  —  ζ = $ζ, ωₙ = $ωn&quot;,
+       smooth=true, symbol=&quot;none&quot;, areaStyle=(opacity=0.12,),
+       xAxis=(name=&quot;t&quot;,), yAxis=(name=&quot;y&quot;,),
+       markLine=(silent=true, symbol=&quot;none&quot;,
+                 data=[(yAxis=1, lineStyle=(type=:dashed, color=&quot;#888&quot;))]),
+       height=360)</code></pre><pre><code class="nohighlight hljs">KaimonSlate.ReportEngine.EChart(Dict{String, Any}(&quot;xAxis&quot; =&gt; Dict{String, Any}(&quot;name&quot; =&gt; &quot;t&quot;), &quot;yAxis&quot; =&gt; Dict{String, Any}(&quot;name&quot; =&gt; &quot;y&quot;), &quot;animationDurationUpdate&quot; =&gt; 300, &quot;textStyle&quot; =&gt; Dict{String, Any}(&quot;fontFamily&quot; =&gt; &quot;inherit&quot;), &quot;tooltip&quot; =&gt; Dict{String, Any}(&quot;trigger&quot; =&gt; &quot;axis&quot;), &quot;title&quot; =&gt; Dict{String, Any}(&quot;text&quot; =&gt; &quot;Step response y(t)  —  ζ = 0.3, ωₙ = 2.0&quot;), &quot;__size&quot; =&gt; Dict{String, Any}(&quot;height&quot; =&gt; 360), &quot;series&quot; =&gt; Dict{String, Any}[Dict(&quot;areaStyle&quot; =&gt; Dict{String, Any}(&quot;opacity&quot; =&gt; 0.12), &quot;data&quot; =&gt; [[0.0, 0.0], [0.03341687552213868, 0.00220300106147], [0.06683375104427736, 0.00868651416391], [0.10025062656641603, 0.0192539090551], [0.1336675020885547, 0.0336984102859], [0.1670843776106934, 0.0518044009902], [0.20050125313283207, 0.0733487141135], [0.23391812865497075, 0.0981019059336], [0.2673350041771094, 0.125829506994], [0.3007518796992481, 0.156293245861], [0.3341687552213868, 0.189252241426], [0.36758563074352546, 0.224464159755], [0.40100250626566414, 0.261686331832], [0.4344193817878028, 0.300676828827], [0.4678362573099415, 0.341195491869], [0.5012531328320802, 0.383004913582], [0.5346700083542189, 0.425871369011], [0.5680868838763575, 0.469565693827], [0.6015037593984962, 0.513864108062], [0.6349206349206349, 0.558548983891], [0.6683375104427736, 0.603409556317], [0.7017543859649122, 0.648242575873], [0.7351712614870509, 0.692852902788], [0.7685881370091896, 0.737054042294], [0.8020050125313283, 0.780668621062], [0.835421888053467, 0.82352880498], [0.8688387635756056, 0.865476658765], [0.9022556390977443, 0.906364448118], [0.935672514619883, 0.946054885345], [0.9690893901420217, 0.984421319612], [1.0025062656641603, 1.02134787316], [1.035923141186299, 1.05672952501], [1.0693400167084377, 1.09047214388], [1.1027568922305764, 1.12249247213], [1.136173767752715, 1.15271806275], [1.1695906432748537, 1.18108717149], [1.2030075187969924, 1.20754860644], [1.236424394319131, 1.23206153729], [1.2698412698412698, 1.25459526675], [1.3032581453634084, 1.27512896661], [1.3366750208855471, 1.29365138098], [1.3700918964076858, 1.31016049927], [1.4035087719298245, 1.32466320163], [1.4369256474519632, 1.33717487934], [1.4703425229741018, 1.34771903291], [1.5037593984962405, 1.35632685047], [1.5371762740183792, 1.36303676911], [1.5705931495405179, 1.36789402168], [1.6040100250626566, 1.37095017173], [1.6374269005847952, 1.37226263898], [1.670843776106934, 1.37189421781], [1.7042606516290726, 1.36991259118], [1.7376775271512113, 1.36638984225], [1.77109440267335, 1.36140196588], [1.8045112781954886, 1.35502838234], [1.8379281537176273, 1.34735145502], [1.871345029239766, 1.33845601424], [1.9047619047619047, 1.32842888907], [1.9381787802840433, 1.31735844867], [1.971595655806182, 1.30533415502], [2.0050125313283207, 1.29244612842], [2.0384294068504594, 1.27878472712], [2.071846282372598, 1.26444014258], [2.1052631578947367, 1.24950201121], [2.1386800334168754, 1.23405904391], [2.172096908939014, 1.21819867417], [2.2055137844611528, 1.20200672559], [2.2389306599832914, 1.18556709957], [2.27234753550543, 1.16896148362], [2.305764411027569, 1.15226908087], [2.3391812865497075, 1.13556636106], [2.372598162071846, 1.1189268333], [2.406015037593985, 1.10242084072], [2.4394319131161235, 1.08611537702], [2.472848788638262, 1.07007392493], [2.506265664160401, 1.05435631636], [2.5396825396825395, 1.03901861402], [2.573099415204678, 1.02411301424], [2.606516290726817, 1.00968777045], [2.6399331662489556, 0.995787137008], [2.6733500417710943, 0.982451332671], [2.706766917293233, 0.969716523217], [2.7401837928153716, 0.957614822456], [2.7736006683375103, 0.946174310946], [2.807017543859649, 0.93541907163], [2.8404344193817876, 0.925369241561], [2.8738512949039263, 0.91604107887], [2.907268170426065, 0.907447044076], [2.9406850459482037, 0.899595894823], [2.9741019214703424, 0.892492793095], [3.007518796992481, 0.886139423961], [3.0409356725146197, 0.880534124865], [3.0743525480367584, 0.875672024488], [3.107769423558897, 0.871545190194], [3.1411862990810357, 0.86814278308], [3.1746031746031744, 0.865451219652], [3.208020050125313, 0.86345433916], [3.241436925647452, 0.862133575627], [3.2748538011695905, 0.861468133656], [3.308270676691729, 0.861435167076], [3.341687552213868, 0.86200995954], [3.3751044277360065, 0.86316610622], [3.408521303258145, 0.864875695734], [3.441938178780284, 0.867109491534], [3.4753550543024225, 0.869837111948], [3.508771929824561, 0.87302720817], [3.5421888053467, 0.876647639475], [3.5756056808688386, 0.880665645024], [3.6090225563909772, 0.885048011621], [3.642439431913116, 0.889761236862], [3.6758563074352546, 0.894771687131], [3.7092731829573933, 0.900045749968], [3.742690058479532, 0.905549980348], [3.7761069340016706, 0.911251240478], [3.8095238095238093, 0.917116832761], [3.842940685045948, 0.923114625599], [3.8763575605680867, 0.92921317178], [3.9097744360902253, 0.935381819209], [3.943191311612364, 0.941590813816], [3.9766081871345027, 0.94781139448], [4.010025062656641, 0.954015879881], [4.0434419381787805, 0.96017774721], [4.076858813700919, 0.966271702716], [4.110275689223058, 0.972273744097], [4.143692564745196, 0.978161214793], [4.177109440267335, 0.98391285025], [4.2105263157894735, 0.989508816273], [4.243943191311613, 0.994930739613], [4.277360066833751, 1.00016173096], [4.31077694235589, 1.00518640052], [4.344193817878028, 1.00999086645], [4.377610693400167, 1.01456275635], [4.4110275689223055, 1.01889120203], [4.444444444444445, 1.02296682802], [4.477861319966583, 1.0267817339], [4.511278195488722, 1.03032947086], [4.54469507101086, 1.03360501294], [4.578111946532999, 1.03660472306], [4.611528822055138, 1.03932631432], [4.644945697577277, 1.04176880701], [4.678362573099415, 1.04393248143], [4.711779448621554, 1.04581882721], [4.745196324143692, 1.04743048921], [4.778613199665831, 1.04877121055], [4.81203007518797, 1.04984577308], [4.845446950710109, 1.05065993556], [4.878863826232247, 1.05122037014], [4.912280701754386, 1.05153459717], [4.945697577276524, 1.05161091903], [4.9791144527986635, 1.05145835296], [5.012531328320802, 1.0510865636], [5.045948203842941, 1.05050579515], [5.079365079365079, 1.04972680379], [5.112781954887218, 1.04876079051], [5.146198830409356, 1.04761933454], [5.179615705931496, 1.04631432786], [5.213032581453634, 1.04485791081], [5.246449456975773, 1.04326240924], [5.279866332497911, 1.04154027322], [5.31328320802005, 1.03970401771], [5.3467000835421885, 1.03776616523], [5.380116959064328, 1.03573919073], [5.413533834586466, 1.03363546885], [5.446950710108605, 1.03146722377], [5.480367585630743, 1.02924648155], [5.513784461152882, 1.02698502532], [5.547201336675021, 1.02469435323], [5.58061821219716, 1.02238563937], [5.614035087719298, 1.02006969755], [5.647451963241437, 1.01775694818], [5.680868838763575, 1.01545738809], [5.714285714285714, 1.01318056344], [5.747702589807853, 1.01093554567], [5.781119465329992, 1.00873091041], [5.81453634085213, 1.00657471949], [5.847953216374269, 1.00447450581], [5.881370091896407, 1.00243726119], [5.9147869674185465, 1.00046942702], [5.948203842940685, 0.998576887697], [5.981620718462824, 0.996764966784], [6.015037593984962, 0.995038425744], [6.048454469507101, 0.993401465193], [6.081871345029239, 0.991857728566], [6.1152882205513786, 0.990410308065], [6.148705096073517, 0.989061752799], [6.182121971595656, 0.987814078968], [6.215538847117794, 0.986668781993], [6.248955722639933, 0.985626850433], [6.2823725981620715, 0.984688781589], [6.315789473684211, 0.983854598631], [6.349206349206349, 0.983123869138], [6.382623224728488, 0.982495724895], [6.416040100250626, 0.981968882825], [6.449456975772765, 0.981541666911], [6.482873851294904, 0.981212030975], [6.516290726817043, 0.980977582188], [6.549707602339181, 0.980835605162], [6.58312447786132, 0.980783086519], [6.616541353383458, 0.980816739791], [6.649958228905597, 0.980933030536], [6.683375104427736, 0.981128201559], [6.716791979949875, 0.981398298107], [6.750208855472013, 0.98173919295], [6.783625730994152, 0.982146611215], [6.81704260651629, 0.982616154909], [6.8504594820384295, 0.983143327002], [6.883876357560568, 0.983723555001], [6.917293233082707, 0.984352213934], [6.950710108604845, 0.98502464865], [6.984126984126984, 0.985736195385], [7.017543859649122, 0.986482202506], [7.0509607351712615, 0.987258050399], [7.0843776106934, 0.988059170426], [7.117794486215539, 0.988881062919], [7.151211361737677, 0.989719314162], [7.184628237259816, 0.990569612329], [7.2180451127819545, 0.991427762354], [7.251461988304094, 0.992289699699], [7.284878863826232, 0.993151503014], [7.318295739348371, 0.994009405673], [7.351712614870509, 0.994859806175], [7.385129490392648, 0.995699277418], [7.4185463659147866, 0.996524574845], [7.451963241436926, 0.997332643465], [7.485380116959064, 0.998120623778], [7.518796992481203, 0.998885856601], [7.552213868003341, 0.999625886836], [7.58563074352548, 1.00033846619], [7.619047619047619, 1.0010215549], [7.652464494569758, 1.00167332244], [7.685881370091896, 1.00229214732], [7.719298245614035, 1.00287661598], [7.752715121136173, 1.00342552079], [7.7861319966583125, 1.00393785722], [7.819548872180451, 1.0044128203], [7.85296574770259, 1.00484980027], [7.886382623224728, 1.00524837757], [7.919799498746867, 1.00560831722], [7.953216374269005, 1.00592956259], [7.9866332497911445, 1.0062122286], [8.020050125313283, 1.00645659455], [8.053467000835422, 1.00666309635], [8.086883876357561, 1.00683231852], [8.1203007518797, 1.00696498577], [8.153717627401837, 1.0070619543], [8.187134502923977, 1.00712420291], [8.220551378446116, 1.00715282389], [8.253968253968255, 1.00714901377], [8.287385129490392, 1.00711406398], [8.320802005012531, 1.00704935151], [8.35421888053467, 1.00695632945], [8.38763575605681, 1.0068365177], [8.421052631578947, 1.00669149367], [8.454469507101086, 1.0065228831], [8.487886382623225, 1.00633235108], [8.521303258145364, 1.00612159318], [8.554720133667502, 1.00589232685], [8.58813700918964, 1.00564628304], [8.62155388471178, 1.00538519808], [8.654970760233919, 1.00511080591], [8.688387635756056, 1.00482483054], [8.721804511278195, 1.0045289789], [8.755221386800335, 1.00422493407], [8.788638262322474, 1.00391434882], [8.822055137844611, 1.00359883959], [8.85547201336675, 1.00327998084], [8.88888888888889, 1.00295929978], [8.922305764411028, 1.00263827158], [8.955722639933166, 1.00231831495], [8.989139515455305, 1.00200078814], [9.022556390977444, 1.00168698537], [9.055973266499583, 1.0013781337], [9.08939014202172, 1.00107539029], [9.12280701754386, 1.00077984005], [9.156223893065999, 1.00049249382], [9.189640768588138, 1.00021428674], [9.223057644110275, 0.999946077236], [9.256474519632414, 0.999688646215], [9.289891395154553, 0.999442696721], [9.323308270676693, 0.999208853908], [9.35672514619883, 0.998987665373], [9.390142021720969, 0.9987796018], [9.423558897243108, 0.99858505793], [9.456975772765247, 0.998404353816], [9.490392648287385, 0.998237736356], [9.523809523809524, 0.998085381089], [9.557226399331663, 0.997947394236], [9.590643274853802, 0.99782381495], [9.62406015037594, 0.997714617792], [9.657477025898078, 0.997619715373], [9.690893901420218, 0.997538961175], [9.724310776942357, 0.997472152518], [9.757727652464494, 0.997419033649], [9.791144527986633, 0.997379298953], [9.824561403508772, 0.997352596251], [9.857978279030911, 0.997338530164], [9.891395154553049, 0.997336665552], [9.924812030075188, 0.997346530974], [9.958228905597327, 0.997367622179], [9.991645781119466, 0.997399405607], [10.025062656641603, 0.997441321872], [10.058479532163743, 0.997492789227], [10.091896407685882, 0.997553206988], [10.12531328320802, 0.99762195891], [10.158730158730158, 0.997698416493], [10.192147034252297, 0.997781942216], [10.225563909774436, 0.997871892682], [10.258980785296576, 0.997967621664], [10.292397660818713, 0.998068483045], [10.325814536340852, 0.998173833641], [10.359231411862991, 0.998283035903], [10.39264828738513, 0.998395460482], [10.426065162907268, 0.998510488667], [10.459482038429407, 0.998627514667], [10.492898913951546, 0.998745947762], [10.526315789473685, 0.998865214291], [10.559732664995822, 0.998984759496], [10.593149540517961, 0.999104049204], [10.6265664160401, 0.999222571355], [10.65998329156224, 0.99933983738], [10.693400167084377, 0.999455383409], [10.726817042606516, 0.999568771333], [10.760233918128655, 0.999679589711], [10.793650793650794, 0.99978745452], [10.827067669172932, 0.999892009757], [10.86048454469507, 0.999992927901], [10.89390142021721, 1.00008991022], [10.927318295739349, 1.00018268695], [10.960735171261486, 1.00027101735], [10.994152046783626, 1.00035468958], [11.027568922305765, 1.00043352053], [11.060985797827904, 1.00050735547], [11.094402673350041, 1.00057606762], [11.12781954887218, 1.00063955761], [11.16123642439432, 1.00069775283], [11.194653299916459, 1.00075060668], [11.228070175438596, 1.0007980978], [11.261487050960735, 1.00084022913], [11.294903926482874, 1.00087702692], [11.328320802005013, 1.00090853979], [11.36173767752715, 1.00093483754], [11.39515455304929, 1.00095601006], [11.428571428571429, 1.00097216613], [11.461988304093568, 1.00098343224], [11.495405179615705, 1.00098995128], [11.528822055137844, 1.00099188131], [11.562238930659984, 1.00098939426], [11.595655806182123, 1.00098267464], [11.62907268170426, 1.00097191823], [11.6624895572264, 1.00095733078], [11.695906432748538, 1.00093912672], [11.729323308270677, 1.00091752789], [11.762740183792815, 1.00089276225], [11.796157059314954, 1.00086506267], [11.829573934837093, 1.00083466573], [11.862990810359232, 1.00080181046], [11.89640768588137, 1.00076673732], [11.929824561403509, 1.00072968697], [11.963241436925648, 1.00069089931], [11.996658312447787, 1.00065061237], [12.030075187969924, 1.00060906142], [12.063492063492063, 1.000566478], [12.096908939014202, 1.00052308908], [12.130325814536342, 1.0004791162], [12.163742690058479, 1.00043477479], [12.197159565580618, 1.00039027341], [12.230576441102757, 1.00034581311], [12.263993316624896, 1.00030158686], [12.297410192147034, 1.00025777905], [12.330827067669173, 1.00021456494], [12.364243943191312, 1.00017211035], [12.397660818713451, 1.00013057124], [12.431077694235588, 1.00009009342], [12.464494569757727, 1.00005081234], [12.497911445279867, 1.00001285289], [12.531328320802006, 0.999976329249], [12.564745196324143, 0.999941344839], [12.598162071846282, 0.999907992276], [12.631578947368421, 0.999876353392], [12.66499582289056, 0.999846499305], [12.698412698412698, 0.999818490521], [12.731829573934837, 0.999792377097], [12.765246449456976, 0.999768198823], [12.798663324979115, 0.999745985456], [12.832080200501252, 0.999725756985], [12.865497076023392, 0.999707523924], [12.89891395154553, 0.999691287642], [12.93233082706767, 0.999677040713], [12.965747702589807, 0.999664767297], [12.999164578111946, 0.99965444354], [13.032581453634085, 0.99964603799], [13.065998329156225, 0.999639512039], [13.099415204678362, 0.999634820367], [13.132832080200501, 0.999631911409], [13.16624895572264, 0.999630727824], [13.19966583124478, 0.999631206973], [13.233082706766917, 0.999633281402], [13.266499582289056, 0.999636879325], [13.299916457811195, 0.999641925114], [13.333333333333334, 0.999648339771]], &quot;smooth&quot; =&gt; true, &quot;symbol&quot; =&gt; &quot;none&quot;, &quot;markLine&quot; =&gt; Dict{String, Any}(&quot;data&quot; =&gt; Any[Dict{String, Any}(&quot;yAxis&quot; =&gt; 1, &quot;lineStyle&quot; =&gt; Dict{String, Any}(&quot;color&quot; =&gt; &quot;#888&quot;, &quot;type&quot; =&gt; &quot;dashed&quot;))], &quot;symbol&quot; =&gt; &quot;none&quot;, &quot;silent&quot; =&gt; true), &quot;type&quot; =&gt; &quot;line&quot;)], &quot;backgroundColor&quot; =&gt; &quot;transparent&quot;))</code></pre><h2 id="giac_intro-6-symbolic-linear-algebra"><a class="docs-heading-anchor" href="#giac_intro-6-symbolic-linear-algebra">6. Symbolic linear algebra</a><a id="giac_intro-6-symbolic-linear-algebra-1"></a><a class="docs-heading-anchor-permalink" href="#giac_intro-6-symbolic-linear-algebra" title="Permalink"></a></h2><p>Matrices with symbolic entries carry through determinants, inverses, and eigenvalues as exact expressions in the parameter <span>$a$</span>.</p><pre><code class="language-julia hljs">M   = GiacMatrix(Giac.giac_eval(&quot;[[a,1],[1,a]]&quot;))
+det = Giac.invoke_cmd(:det, M)
+inv = Giac.invoke_cmd(:inverse, M)
+eig = Giac.invoke_cmd(:eigenvalues, M)
+mathblock([
+    &quot;A &amp;= &quot; * tex(M),
+    &quot;\\det A &amp;= &quot; * tex(det),
+    &quot;A^{-1} &amp;= &quot; * tex(inv),
+    &quot;\\operatorname{eig}(A) &amp;= &quot; * tex(eig),
+])</code></pre><pre><code class="nohighlight hljs">$$
+\begin{aligned}A &amp;= \left[\begin{array}{cc}a&amp;1\\1&amp;a\end{array}\right] \\[6pt] \det A &amp;= a^{2}-1 \\[6pt] A^{-1} &amp;= \left[\begin{array}{cc}\frac{a}{a^{2}-1}&amp;-\frac1{a^{2}-1}\\-\frac1{a^{2}-1}&amp;\frac{a}{a^{2}-1}\end{array}\right] \\[6pt] \operatorname{eig}(A) &amp;= a+1,a-1\end{aligned}
+$$
+</code></pre><pre><code class="language-julia hljs"># Giac symbolic output embedded inline in markdown prose.
+# `tex(e)` renders any Giac expression to a LaTeX string; drop it into a
+# Markdown.parse string and it typesets alongside ordinary text.
+let
+    fac  = factor(x^4 - 1)
+    dsol = solve(x^2 - 5x + 6, x)
+    ig   = integrate(x * exp(x), x)
+
+    Markdown.parse(&quot;&quot;&quot;
+    We can weave Giac&#39;s **symbolic output** straight into markdown prose.
+
+    - The quartic factors as \$x^4 - 1 = $(tex(fac))\$.
+    - Solving \$x^2 - 5x + 6 = 0\$ gives \$x \\in $(tex(dsol))\$.
+    - And \$\\displaystyle\\int x\\,e^{x}\\,dx = $(tex(ig)) + C\$.
+
+    The same aligned `mathblock` also renders as markdown:
+
+    \$\$\\begin{aligned}
+    x^4 - 1 &amp;= $(tex(fac)) \\\\[6pt]
+    \\int x\\,e^{x}\\,dx &amp;= $(tex(ig)) + C
+    \\end{aligned}\$\$
+    &quot;&quot;&quot;)
+end</code></pre><pre><code class="nohighlight hljs">We can weave Giac&#39;s **symbolic output** straight into markdown prose.
+
+  * The quartic factors as $x^4 - 1 = \left(x-1\right) \left(x+1\right) \left(x^{2}+1\right)$.
+  * Solving $x^2 - 5x + 6 = 0$ gives $x \in \left[2,3\right]$.
+  * And $\displaystyle\int x\,e^{x}\,dx = x \mathrm{e}^{x}-\mathrm{e}^{x} + C$.
+
+The same aligned `mathblock` also renders as markdown:
+
+$$
+\begin{aligned}
+x^4 - 1 &amp;= \left(x-1\right) \left(x+1\right) \left(x^{2}+1\right) \\[6pt]
+\int x\,e^{x}\,dx &amp;= x \mathrm{e}^{x}-\mathrm{e}^{x} + C
+\end{aligned}
+$$
+</code></pre><pre><code class="language-julia hljs">begin
+    h = 10
+    y = 2
+end</code></pre><pre><code class="nohighlight hljs">2</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../getting-started/">« Getting started</a><a class="docs-footer-nextpage" href="../giac_tour/">A Tour of GIAC »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 15 August 2026 17:54">Saturday 15 August 2026</span>. Using Julia version 1.12.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -1,0 +1,6 @@
+{
+  "name": "laplace_lesson notebook inspection",
+  "build": { "dockerfile": "Dockerfile" },
+  "forwardPorts": [8765],
+  "remoteUser": "root"
+}
