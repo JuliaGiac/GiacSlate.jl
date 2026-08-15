@@ -236,11 +236,13 @@ The pages under **The notebooks** on this site are the real output of those file
 executed headlessly.
 
 !!! note "Two cells of `giac_intro.jl` show an error on this site"
-    They are the two that read `fkey.value` from a `Select`. That is correct in a live
-    Slate session, where a labeled `Select` binds a `Choice`; but the headless default
-    KaimonSlate binds is the bare value string, so the same cell raises
-    `FieldError(String, :value)` when the docs are built. The notebook is fine when you
-    open it with `slate`. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    They read `fkey.value` from a labeled `Select`, which is what the widget contract
+    says to do. It fails because KaimonSlate registers its built-in widget kinds at
+    module top level rather than in `__init__`, so the registration is lost to
+    precompilation and the kind registry is empty at run time — the bind then returns a
+    bare `String` instead of a `Choice`. This affects a live Slate session too; the
+    documentation build is simply what executes these cells in CI. See
+    [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
     defect 1.
 
 ## Building this documentation
@@ -381,9 +383,11 @@ that holds `DOCUMENTER_KEY` runs with `execution = :never`, where a cache miss r
 rather than falling back to executing. See [Getting started](getting-started.md#Building-this-documentation).
 
 !!! note "Two cells of notebook 1 show an error here"
-    They read `fkey.value` from a `Select`, which is correct in a live Slate session but
-    not under the headless default KaimonSlate binds. The notebook is fine when you open
-    it with `slate`. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    They read `fkey.value` from a labeled `Select`, as the widget contract says to. It
+    fails because KaimonSlate's built-in widget kinds are registered at module top level
+    instead of in `__init__`, so precompilation discards the registration and the bind
+    returns a bare `String` rather than a `Choice`. A live Slate session hits the same
+    thing. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
     defect 1.
 
 
@@ -424,12 +428,12 @@ KaimonSlate.serve_notebook("giac_intro.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_intro/Dockerfile) | `ae39430b941dd157fbe23edbf18f040cb63023eeb459397a6ead1c0bf6df687d` |
     | [`Manifest.toml`](downloads/giac_intro/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `3540870c999997e52797de081bfbc1645d9b0b8b277ba46b7a466c8a55ac6131` |
+    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `35c571101c70584f84acc957d1afd4c2c57e75366bed551af8cb885f7c45e25d` |
     | [`Project.toml`](downloads/giac_intro/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_intro/README.md) | `20b3f398028cb6ae7cadab4e5d9c11296c0da7afc7388af1b742c40620c4e0c0` |
     | [`devcontainer.json`](downloads/giac_intro/devcontainer.json) | `7738cb88b4a6e4848d4545f555750df97fe66b5137f84be8931bc06eb368682e` |
     | [`giac_intro.jl`](downloads/giac_intro/giac_intro.jl) | `3eb63acbad5e77d998fb649e7ffbcc812e9e5b315b01e25b46887c47a3fb5d44` |
-    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `aa4d87b7987ab2d508b76d1f78713452e94b46e5203cc01faafbda882df6b14f` |
+    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `d00dc1e835084c3314a8381c7400f0647a7a610bca8404c385738f80952c7680` |
 
 
 ```
@@ -879,12 +883,12 @@ KaimonSlate.serve_notebook("giac_tour.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_tour/Dockerfile) | `25da180af2270a539f8a8e91d3af1bdf0767064bde4b32dc040b256430fad4da` |
     | [`Manifest.toml`](downloads/giac_tour/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `a3d6dbcee741b53b0818e94d4487c5403e46760d74fcb8c9903834ab70ac7645` |
+    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `0f7b47dac972dc123fb79c855168e6ed8cfaa2a3a9223c2136f8403846cc31d3` |
     | [`Project.toml`](downloads/giac_tour/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_tour/README.md) | `1cafa944a60cf3a228806b9042cd239a667850212d989124a9c06a51b2ddc886` |
     | [`devcontainer.json`](downloads/giac_tour/devcontainer.json) | `8be8328084037687160df70959100eac8afd58b6ea8ffba04e33851a5abd002f` |
     | [`giac_tour.jl`](downloads/giac_tour/giac_tour.jl) | `3fe5869421a9563bd3bb8eabeeef6024ab73cdfe2e7d135b51f16083c41fce97` |
-    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `65ab0b72f22e3012bc7f767c5a62efc73a4ba1d664d692f4e011f324200a79f8` |
+    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `9434837d264cd8c907b6249fd32a9af8faf19579c913d03b21bfd8bcf19ef393` |
 
 
 ```
@@ -1233,12 +1237,12 @@ KaimonSlate.serve_notebook("laplace_lesson.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/laplace_lesson/Dockerfile) | `d31c65b1308c9c75658f1149ad498ef75cea1f41c8330d405c8d8ad105520a39` |
     | [`Manifest.toml`](downloads/laplace_lesson/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `f008a25d1d4c85fd4ada87462648e84d24f5130385d8a7425158fab525f2e51f` |
+    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `2a350fb29e9294ad0a2daa8b5277a63b89e67afb69ca86570eff1c1842964f0f` |
     | [`Project.toml`](downloads/laplace_lesson/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/laplace_lesson/README.md) | `7044c064ef78527786f5273f47b357aa83b6ca233b9bb980617bb144e42f25f4` |
     | [`devcontainer.json`](downloads/laplace_lesson/devcontainer.json) | `441c16daeecacf87bd95b9800e25c8e8b4a7c785439983e980fb6a04614ec573` |
     | [`laplace_lesson.jl`](downloads/laplace_lesson/laplace_lesson.jl) | `4c5e298cb974445119b5ed2a92e3a464e0198bac4c08e0dfdcf8156f8a11efde` |
-    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `1740d148afd43c40153498a7e96ecd5f6bd8a4525de645d2b59ff643db298604` |
+    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `f5e4c6ba3e5e8de7bfcb3993f66afd4557c9999923a4a02e4fbecadf68cbcbc0` |
 
 
 ```julia
@@ -1659,11 +1663,11 @@ KaimonSlate.serve_notebook("custom_controls.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/custom_controls/Dockerfile) | `d8a01104d6bb3c487b542fc6e00d94c1ba8ccd0eddce53b19383c89ef8768a13` |
     | [`Manifest.toml`](downloads/custom_controls/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `08224e2cbe3225976b56656cef9995d3b0465c0c56a88f30628952199e522126` |
+    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `9c7981a3167e213e1ab502fd722dc15388ea67d2f78e87dd02e005a720afd4f3` |
     | [`Project.toml`](downloads/custom_controls/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/custom_controls/README.md) | `38001bf5d549633b958bb41bc53ffbdaa05933574f71deebbff347740a117351` |
     | [`custom_controls.jl`](downloads/custom_controls/custom_controls.jl) | `402f8276b9fa2fee6e29f937c757a39d0c16679efd06e3c6e3c7637c4d6ead61` |
-    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `9fecced6d232e2a4671cc8bc1fa89edbcddc58b0dc4d4868b2bb4d45f20adc9b` |
+    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `f64878f97cbc475a8d81da5bd6335d434b3a6ca6cf302f61ad7e7f4397f2494c` |
     | [`devcontainer.json`](downloads/custom_controls/devcontainer.json) | `8ce45784a0d2bfa78d7078ae35df6c0431a4e369259eb77939bbfcce1a1cbcf2` |
 
 
