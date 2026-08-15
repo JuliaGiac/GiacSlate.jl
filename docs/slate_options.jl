@@ -25,14 +25,15 @@ function slate_options(execution::Symbol)
         cache_dir = joinpath(@__DIR__, "slate_cache"),
         slate_toml = joinpath(@__DIR__, "slate.toml"),
         execution = execution,
-        # Not the strict default, because of one upstream defect (see UPSTREAM.md): a
-        # `Select` built from `value => label` pairs binds a `Choice` in a live session —
-        # which is why `giac_intro.jl` writes `fkey.value` — but `Widget.default`, the
-        # value `standalone!` binds headlessly, is the bare value string. Two cells of
-        # `giac_intro.jl` therefore raise `FieldError(String, :value)` here and only
-        # here. With `false`, the failure is rendered on the page instead of aborting the
-        # whole build, and `collect_build_statuses` still reports it in the CI job
-        # summary. Restore the default `true` once the upstream binding is consistent.
+        # Not the strict default, because of one upstream defect (see UPSTREAM.md §1):
+        # KaimonSlate registers its built-in widget kinds at module top level rather than
+        # in `__init__`, so precompilation discards the registration and the kind
+        # registry is empty at run time. A labeled `Select` then binds a bare `String`
+        # instead of the documented `Choice`, and the two cells of `giac_intro.jl` that
+        # read `fkey.value` raise `FieldError(String, :value)`. With `false`, the failure
+        # is rendered on the page instead of aborting the whole build, and
+        # `collect_build_statuses` still reports it in the CI job summary. Restore the
+        # default `true` once the registration moves into `__init__` upstream.
         fail_on_error = false,
         # The parent process environment is not inherited; this is the explicit
         # allowlist. The notebooks print ζ, ωₙ and ✓ — without a UTF-8 locale the

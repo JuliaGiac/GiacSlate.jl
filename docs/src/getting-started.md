@@ -107,11 +107,13 @@ The pages under **The notebooks** on this site are the real output of those file
 executed headlessly.
 
 !!! note "Two cells of `giac_intro.jl` show an error on this site"
-    They are the two that read `fkey.value` from a `Select`. That is correct in a live
-    Slate session, where a labeled `Select` binds a `Choice`; but the headless default
-    KaimonSlate binds is the bare value string, so the same cell raises
-    `FieldError(String, :value)` when the docs are built. The notebook is fine when you
-    open it with `slate`. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    They read `fkey.value` from a labeled `Select`, which is what the widget contract
+    says to do. It fails because KaimonSlate registers its built-in widget kinds at
+    module top level rather than in `__init__`, so the registration is lost to
+    precompilation and the kind registry is empty at run time — the bind then returns a
+    bare `String` instead of a `Choice`. This affects a live Slate session too; the
+    documentation build is simply what executes these cells in CI. See
+    [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
     defect 1.
 
 ## Building this documentation

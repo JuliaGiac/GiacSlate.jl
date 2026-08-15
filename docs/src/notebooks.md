@@ -110,7 +110,9 @@ that holds `DOCUMENTER_KEY` runs with `execution = :never`, where a cache miss r
 rather than falling back to executing. See [Getting started](getting-started.md#Building-this-documentation).
 
 !!! note "Two cells of notebook 1 show an error here"
-    They read `fkey.value` from a `Select`, which is correct in a live Slate session but
-    not under the headless default KaimonSlate binds. The notebook is fine when you open
-    it with `slate`. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
+    They read `fkey.value` from a labeled `Select`, as the widget contract says to. It
+    fails because KaimonSlate's built-in widget kinds are registered at module top level
+    instead of in `__init__`, so precompilation discards the registration and the bind
+    returns a bare `String` rather than a `Choice`. A live Slate session hits the same
+    thing. See [`UPSTREAM.md`](https://github.com/JuliaGiac/GiacSlate.jl/blob/main/UPSTREAM.md),
     defect 1.

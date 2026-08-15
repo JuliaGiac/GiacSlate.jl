@@ -3,44 +3,70 @@
 Defects in dependencies that GiacSlate has to work around. Each entry says what breaks,
 what the workaround is, and what should be deleted once the defect is fixed.
 
-## 1. A labeled `Select` binds a `Choice` live but a bare value headlessly
+## 1. The built-in widget kinds are never registered at run time
 
-**Where** — KaimonSlate, `src/widgets.jl`.
+**Where** — KaimonSlate 1.1.0, `src/widgets.jl:503`.
 
-**What happens** — `Select(options)` built from `value => label` pairs sets
-`params["labeled"] = true`, whose documented meaning in the source is "bind a `Choice`
-(value + label) rather than the bare value". So in a live session the bound variable is
-a `Choice`, and `fkey.value` is the correct way to read it — which is what
-`notebooks/giac_intro.jl` does.
-
-But `Widget.default` is computed by `_opt_default`, which returns the bare value:
+**What happens** — `_register_builtin_kinds!()` is called at **module top level**:
 
 ```julia
-julia> mod = Module(:T); KaimonSlate.standalone!(mod; dir = pwd());
-julia> Core.eval(mod, :(@bind fkey Select(["sin(x)" => "sin x"]; label = "f(x)")));
-julia> typeof(Core.eval(mod, :fkey))
-String
+_register_builtin_kinds!()   # widgets.jl:503, outside any __init__
 ```
 
-`KaimonSlate.standalone!` — the headless path DocumenterSlate executes notebooks
-through — binds that default. So the same cell that works in the browser raises
-`FieldError(String, :value)` when executed headlessly.
+It populates `SlateExtensionsBase._KINDS`, a `const Dict` owned by a *different* module.
+Top-level code runs during precompilation only, and a mutation to another package's
+global is serialised into neither package's `.ji` cache. Nothing replays it on load, so
+the registry comes up empty in every ordinary process:
+
+```
+$ julia --project=notebooks -e 'using KaimonSlate;
+    println(KaimonSlate.ReportEngine.SlateExtensionsBase.widget_kinds())'
+String[]
+
+$ julia --compiled-modules=no --project=notebooks -e '...same...'
+["button", "checkbox", "multicheck", "multiselect", "number", "playhead",
+ "radio", "select", "slider", "tableselect", "toggle"]
+```
+
+The rest follows mechanically. `Select` built from `value => label` pairs correctly sets
+`params["labeled"] = true`, and `_do_bind` correctly ends in `wrap_value(w, val)`
+(`widgets.jl:533`) — but `wrap_value` looks the `wrap` hook up by kind, finds an empty
+registry, and returns the value untouched. So `@bind fkey Select(…)` binds a bare
+`String` where the contract says `Choice`, and `fkey.value` — which is what
+`notebooks/giac_intro.jl` writes, correctly — raises `FieldError(String, :value)`.
+
+Registering the kinds by hand restores the documented behaviour:
+
+```julia
+julia> KaimonSlate.ReportEngine._register_builtin_kinds!()
+julia> Core.eval(m, :(@bind fkey Select(["sin(x)" => "sin x"]; label = "f")));
+julia> Core.eval(m, :fkey)
+Choice{String}("sin(x)", "sin x")     # and fkey.value == "sin(x)"
+```
+
+**This is not a headless-only defect.** The registry is empty in *any* process that
+loads KaimonSlate from its precompile cache, so a live Slate session is affected
+identically. It happens to surface here because the documentation build is the thing
+that executes these cells in CI.
 
 **Consequence here** — two cells of `notebooks/giac_intro.jl` (`taylor_explorer` and
-`taylor_symbolic`) fail during the documentation build, and only there. The other three
-notebooks execute cleanly, 93 cells in total.
+`taylor_symbolic`) fail. The other three notebooks execute cleanly; 93 cells in total.
 
 **Workaround** — `docs/slate_options.jl` sets `fail_on_error = false`, so the two cells
 render with their error on the page instead of aborting the whole build.
 `collect_build_statuses` still reports the failure in the CI job summary.
 
-**Delete when** — `standalone!` binds a `Choice` for a labeled `Select`, matching the
-live path. Then restore the strict `fail_on_error = true`, which is DocumenterSlate's
-own default and the setting you want for catching real breakage.
+**Fix** — move `_register_builtin_kinds!()` into `KaimonSlate.__init__()`, which already
+exists at `src/KaimonSlate.jl:130`. Cross-module global state has to be established at
+load time, not at precompile time.
 
-**Not a workaround** — changing `fkey.value` to `fkey` in the notebook. That would fix
-the headless build and break the live notebook, which is the wrong trade: the notebook
-exists to be used in Slate.
+**Delete when** — that fix lands upstream. Then restore the strict
+`fail_on_error = true`, which is DocumenterSlate's own default and the setting you want
+for catching real breakage.
+
+**Not a workaround** — changing `fkey.value` to `fkey` in the notebook. It would paper
+over the symptom in both contexts today and then break again the moment the registry is
+fixed and the bind starts returning a `Choice`, as documented.
 
 ## 2. Reproducible archives need GNU tar
 
