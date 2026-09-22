@@ -37,7 +37,7 @@ jobs:
           restore-keys: slate-${{ runner.os }}-${{ env.JULIA_VERSION }}-
       - name: Render notebooks
         run: julia --project=docs docs/render.jl
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: slate-cache
           path: docs/slate_cache
