@@ -1,0 +1,11 @@
+repository = "JuliaGiac/GiacSlate.jl"
+source_sha256 = "3eb63acbad5e77d998fb649e7ffbcc812e9e5b315b01e25b46887c47a3fb5d44"
+julia_version = "1.12.7"
+git_sha = "cf81770d28c51778fc43fe89a3865df758a82d79"
+environment_kind = "external"
+run_id = "35739421481"
+build_timestamp = "2026-09-22T14:18:37Z"
+documenterslate_version = "0.1.0-DEV+f125914410811d3f8d2daed9a1830a50c56081c837bb5e60e265a7febc0807be"
+manifest_sha256 = "f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065"
+ci_produced = true
+kaimonslate_version = "1.1.0"
