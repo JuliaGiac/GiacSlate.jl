@@ -1,10 +1,10 @@
 repository = "JuliaGiac/GiacSlate.jl"
 source_sha256 = "402f8276b9fa2fee6e29f937c757a39d0c16679efd06e3c6e3c7637c4d6ead61"
 julia_version = "1.12.7"
-git_sha = "84f0a5ff50dfbf22b55d5ba1b0fcb6f00cb570fa"
+git_sha = "02a535ffef86535445a4de0b676f5a4d40f60aa7"
 environment_kind = "external"
-run_id = "35739309494"
-build_timestamp = "2026-09-22T16:17:38+02:00"
+run_id = "45715033920"
+build_timestamp = "2026-11-25T23:39:00+01:00"
 documenterslate_version = "0.1.0-DEV+f125914410811d3f8d2daed9a1830a50c56081c837bb5e60e265a7febc0807be"
 manifest_sha256 = "f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065"
 ci_produced = true
