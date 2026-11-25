@@ -1,0 +1,24 @@
+# The notebooks' environment.
+#
+# DocumenterSlate executes each notebook in a dedicated Julia process with the
+# `Project.toml` *adjacent to the notebook* activated (`resolve_notebook_project`,
+# the `:external` case). Without this file, resolution would fall back to the
+# `Slate.env` footer embedded in the notebooks — which lists only `Giac`, never
+# `GiacSlate` or `KaimonSlate`, so every `using GiacSlate` cell would fail.
+#
+# `[sources]` points GiacSlate at the working copy rather than a registry: the
+# package isn't registered yet (see the README).
+
+[deps]
+Giac = "e4421f97-9838-4fd0-9fa5-94f11373bf78"
+GiacSlate = "f4c9f34b-fa6a-4506-9309-e8c0bac809fa"
+KaimonSlate = "f7b954f5-0334-4562-ac21-b005218ce1da"
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[sources]
+GiacSlate = {path = ".."}
+
+[compat]
+Giac = "0.14.2"
+KaimonSlate = "1"
+julia = "1.12"
