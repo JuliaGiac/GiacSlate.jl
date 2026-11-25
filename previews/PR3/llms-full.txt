@@ -22,6 +22,9 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/JuliaGiac/GiacSlate.jl
+    - theme: alt
+      text: All JuliaGiac projects
+      link: https://juliagiac.github.io/
   image:
     src: /logo.svg
     alt: GiacSlate.jl
@@ -504,12 +507,12 @@ KaimonSlate.serve_notebook("giac_intro.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_intro/Dockerfile) | `ae39430b941dd157fbe23edbf18f040cb63023eeb459397a6ead1c0bf6df687d` |
     | [`Manifest.toml`](downloads/giac_intro/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `751ef9ffd02c12064c334a28d8e70cb08875f4257e2cf5228101661bab6e5b68` |
+    | [`PROVENANCE.toml`](downloads/giac_intro/PROVENANCE.toml) | `4cd9d51098aef8cdcec01ad9a6eb0b113e93a6e24734f7731d64ddae18cc52ab` |
     | [`Project.toml`](downloads/giac_intro/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_intro/README.md) | `c076a75c2ac02ea8b68854608e5dc111aaa089eb8677433185da0fef2cabc40f` |
     | [`devcontainer.json`](downloads/giac_intro/devcontainer.json) | `7738cb88b4a6e4848d4545f555750df97fe66b5137f84be8931bc06eb368682e` |
     | [`giac_intro.jl`](downloads/giac_intro/giac_intro.jl) | `3eb63acbad5e77d998fb649e7ffbcc812e9e5b315b01e25b46887c47a3fb5d44` |
-    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `679d0c973f998f923cf1bf62301c6f5a5f62a7ef9fa63a69c1b92b6b42f9cd4f` |
+    | [`giac_intro.tar.gz`](downloads/giac_intro/giac_intro.tar.gz) | `23d793119de34cb81fd234ea2c5523eb3c2671b279f1b80fbdd91aae75ab9a60` |
 
 
 ```
@@ -954,12 +957,12 @@ KaimonSlate.serve_notebook("giac_tour.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/giac_tour/Dockerfile) | `25da180af2270a539f8a8e91d3af1bdf0767064bde4b32dc040b256430fad4da` |
     | [`Manifest.toml`](downloads/giac_tour/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `984d5b75edc79d7eabbc11657594514980e2a5664e4981e6baa0d7773aed1a5c` |
+    | [`PROVENANCE.toml`](downloads/giac_tour/PROVENANCE.toml) | `d9450dcc678077379a5a006dc612ad9cf59646cfe809b1adfe05c76990af4077` |
     | [`Project.toml`](downloads/giac_tour/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/giac_tour/README.md) | `ab1bca6e8637c8e7cc070c6cc456551aaff379049975b34f2b0091880d0c5944` |
     | [`devcontainer.json`](downloads/giac_tour/devcontainer.json) | `8be8328084037687160df70959100eac8afd58b6ea8ffba04e33851a5abd002f` |
     | [`giac_tour.jl`](downloads/giac_tour/giac_tour.jl) | `3fe5869421a9563bd3bb8eabeeef6024ab73cdfe2e7d135b51f16083c41fce97` |
-    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `9ae396c653103c12671f0af650b3cd265aa10587656c04c16da324e098800929` |
+    | [`giac_tour.tar.gz`](downloads/giac_tour/giac_tour.tar.gz) | `36bfeb68c8b60bd42140457640ac902ab7ea6805f42e2d9a35da615ac9f41926` |
 
 
 ```
@@ -1330,12 +1333,12 @@ KaimonSlate.serve_notebook("laplace_lesson.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/laplace_lesson/Dockerfile) | `d31c65b1308c9c75658f1149ad498ef75cea1f41c8330d405c8d8ad105520a39` |
     | [`Manifest.toml`](downloads/laplace_lesson/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `dc97efba86cf8c90d7a0fe1111b9d2693b789f7ba1b7459d3f8d1735079377d7` |
+    | [`PROVENANCE.toml`](downloads/laplace_lesson/PROVENANCE.toml) | `a4e7c15cf512b6163cca88596bc3f90a4d493dd17965a639525868eeca4d0a6a` |
     | [`Project.toml`](downloads/laplace_lesson/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/laplace_lesson/README.md) | `7e6e1f96bbb78be5fbd0f429a56d32c0b4140f936d276dadd1898c2f6db05f9b` |
     | [`devcontainer.json`](downloads/laplace_lesson/devcontainer.json) | `441c16daeecacf87bd95b9800e25c8e8b4a7c785439983e980fb6a04614ec573` |
     | [`laplace_lesson.jl`](downloads/laplace_lesson/laplace_lesson.jl) | `4c5e298cb974445119b5ed2a92e3a464e0198bac4c08e0dfdcf8156f8a11efde` |
-    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `dd264c1245c0cf8baa42e628fd64c6e560f044868b924ad7d4fb549fa52302a6` |
+    | [`laplace_lesson.tar.gz`](downloads/laplace_lesson/laplace_lesson.tar.gz) | `814e2ba7e044ee8071265c443e5229e27fc153fbfdaf5019ccf3b98325f26fed` |
 
 
 ```julia
@@ -1980,11 +1983,11 @@ KaimonSlate.serve_notebook("custom_controls.jl"; inactive = true)</code></pre>
     |:--|:--|
     | [`Dockerfile`](downloads/custom_controls/Dockerfile) | `d8a01104d6bb3c487b542fc6e00d94c1ba8ccd0eddce53b19383c89ef8768a13` |
     | [`Manifest.toml`](downloads/custom_controls/Manifest.toml) | `f2810a9c1f516c881f51e12fab61cc4585349cfe850622943394aa8a08efc065` |
-    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `731b4ede8f4a9d8cd9ed922d67fa8f9f15b4b31b8e452a8d1b6ca9663a48411a` |
+    | [`PROVENANCE.toml`](downloads/custom_controls/PROVENANCE.toml) | `7ca8f79ccce3f483d4c77df7757653a454a72c2a43f9664dc72cd92eeace060e` |
     | [`Project.toml`](downloads/custom_controls/Project.toml) | `47810962ec0e39b7dd20de00dcef692ba653519f69bb872450bf0eaa67688d07` |
     | [`README.md`](downloads/custom_controls/README.md) | `3f39957bf89da19fbdb128dfaa22bf7665e804a403914e8403267d1070965bf7` |
     | [`custom_controls.jl`](downloads/custom_controls/custom_controls.jl) | `402f8276b9fa2fee6e29f937c757a39d0c16679efd06e3c6e3c7637c4d6ead61` |
-    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `49399f8a99a43c496990050669919a4d500a0eb73dcab4812ba6899ce9905e99` |
+    | [`custom_controls.tar.gz`](downloads/custom_controls/custom_controls.tar.gz) | `8f3401bc7224f92e055ace912600c3e71de382a331e3a3462b811cbbdf2a203c` |
     | [`devcontainer.json`](downloads/custom_controls/devcontainer.json) | `8ce45784a0d2bfa78d7078ae35df6c0431a4e369259eb77939bbfcce1a1cbcf2` |
 
 
