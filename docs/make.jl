@@ -129,6 +129,13 @@ makedocs(;
         # Notebook pages carry full cell output, so they exceed Documenter's default
         # page-size threshold as a matter of course.
         size_threshold_ignore = [path for (_, path) in notebook_pages],
+        # JuliaGiac identity, from JuliaGiac/site-kit (`sync.jl documenter docs --keep-logo`).
+        assets = ["assets/juliagiac.css",
+                  asset("assets/favicon.png", class = :ico, islocal = true)],
+        footer = "GiacSlate.jl is part of [JuliaGiac](https://juliagiac.github.io/), " *
+                 "which brings [Giac](https://www-fourier.univ-grenoble-alpes.fr/~parisse/giac.html) " *
+                 "(Bernard Parisse and Renée De Graeve) to Julia. " *
+                 "Powered by [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl).",
     ),
     # The `julia` blocks on the authored pages are illustrative: running them would need
     # Giac plus a live Slate kernel, so they are not doctests.

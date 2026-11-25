@@ -68,6 +68,9 @@
 !/docs/src/notebooks.md
 !/docs/src/assets/logo.svg
 !/docs/src/assets/logo-dark.svg
+# JuliaGiac identity, copied from JuliaGiac/site-kit (sync.jl documenter docs --keep-logo)
+!/docs/src/assets/juliagiac.css
+!/docs/src/assets/favicon.png
 
 # .github/
 !/.github/workflows/docs.yml
